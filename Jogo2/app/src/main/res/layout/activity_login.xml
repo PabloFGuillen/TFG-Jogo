@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FCF2F2"
+    android:backgroundTint="#FCF2F2"
+    tools:context=".Login">
+
+    <include layout="@layout/header_layout" />
+
+    <ImageView
+        android:id="@+id/rectangulo"
+        android:layout_width="330dp"
+        android:layout_height="311dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.374"
+        app:srcCompat="@drawable/rectangulo" />
+
+    <EditText
+        android:id="@+id/nombre"
+        android:layout_width="277dp"
+        android:layout_height="43dp"
+        android:background="#EEEEEE"
+        android:ems="10"
+        android:gravity="fill_horizontal|fill_vertical"
+        android:hint=" Nombre de usuario"
+        android:inputType="textPersonName"
+        android:textColor="#877F7F"
+        android:textColorHint="#877F7F"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.287" />
+
+    <EditText
+        android:id="@+id/contraseña"
+        android:layout_width="279dp"
+        android:layout_height="45dp"
+        android:background="#EEEEEE"
+        android:backgroundTint="#EEEEEE"
+        android:ems="10"
+        android:hint=" Contraseña"
+        android:inputType="textPassword"
+        android:textColor="#877F7F"
+        android:textColorHint="#877F7F"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.492"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.405" />
+
+    <Button
+        android:id="@+id/inicioS"
+        android:layout_width="278dp"
+        android:layout_height="44dp"
+        android:backgroundTint="#BEF8C4"
+        android:onClick="inicioS"
+        android:text="INICIAR SESIÓN"
+        android:textColor="#3CE500"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.488"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.538" />
+
+    <Button
+        android:id="@+id/registrarse"
+        android:layout_width="280dp"
+        android:layout_height="41dp"
+        android:backgroundTint="#AAC8D6"
+        android:onClick="registrarse"
+        android:text="Registrarse"
+        android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.511"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.701" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
