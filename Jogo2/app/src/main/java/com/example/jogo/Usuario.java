@@ -29,10 +29,8 @@ public class Usuario extends AppCompatActivity {
 
     public void siguiente(View view){
         String nUsuario = usuario.getText().toString();
-        Toast.makeText(Usuario.this, "a", Toast.LENGTH_LONG).show();
         if(nUsuario.equals("") == false){
             try{
-                Toast.makeText(Usuario.this, "b", Toast.LENGTH_LONG).show();
                 Conector con = new Conector();
                 if(con.usuario(nUsuario) == true){
                     Toast.makeText(Usuario.this, "El nombre de usuario ya existe", Toast.LENGTH_LONG).show();
