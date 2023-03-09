@@ -16,7 +16,7 @@ public class Conector {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
         Class.forName("com.mysql.jdbc.Driver");
-        con = DriverManager.getConnection("jdbc:mysql://192.168.1.56:3333/jogo","Android","android");
+        con = DriverManager.getConnection("jdbc:mysql://192.168.1.56:3306/jogo","Android","android");
     }
 
     public boolean login(String usuario, String contraseña) throws SQLException {

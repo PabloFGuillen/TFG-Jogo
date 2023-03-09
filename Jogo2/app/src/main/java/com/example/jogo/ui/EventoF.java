@@ -1,17 +1,23 @@
 package com.example.jogo.ui;
 
+import android.app.DatePickerDialog;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TabHost;
 import android.widget.TextView;
 
+import com.example.jogo.DatePickerFragment;
 import com.example.jogo.R;
+
+import java.time.LocalDate;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -25,7 +31,7 @@ public class EventoF extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
+    private TextView fecha;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -104,6 +110,25 @@ public class EventoF extends Fragment {
         EditText comunidad = (EditText) view.findViewById(R.id.comunidadE);
         EditText plazasE = (EditText) view.findViewById(R.id.plazasE);
         EditText descripcionE = (EditText) view.findViewById(R.id.descripcionE);
+        this.fecha = (TextView) view.findViewById(R.id.fechaE);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            fecha.setText(String.valueOf(LocalDate.now().getDayOfMonth()) + "/" +
+                            String.valueOf(LocalDate.now().getMonthValue()) + "\n" +
+                            String.valueOf(LocalDate.now().getYear()));
+        }
+        TextView etPlannedDate = (TextView) view.findViewById(R.id.fechaE);
+        etPlannedDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                switch (view.getId()) {
+                    case R.id.fechaE:
+                        showDatePickerDialog();
+                        break;
+            }
+        }
+        });
+
 
         Button crearE = (Button) view.findViewById(R.id.crearE);
         crearE.setOnClickListener(new View.OnClickListener()
@@ -115,6 +140,17 @@ public class EventoF extends Fragment {
             }
         });
         return view;
+    }
+    private void showDatePickerDialog() {
+        DatePickerFragment newFragment = DatePickerFragment.newInstance(new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+                // +1 because January is zero
+                final String selectedDate = day + "/" + (month+1) + "\n " + year;
+                fecha.setText(selectedDate);
+            }
+        });
 
+        newFragment.show(getActivity().getSupportFragmentManager(), "datePicker");
     }
 }

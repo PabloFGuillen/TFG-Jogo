@@ -24,11 +24,13 @@ public class Mail {
     Properties properties;
 
     public Mail(){
-        correo = "pablofguillen1503@gmail.com";
-        contraseña = "ferreras.PB12";
+        correo = "jogoeventsapp@gmail.com";
+        contraseña = "qmffbyrujcxvandb";
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         properties = new Properties();
         properties.put("mail.smtp.host", "smtp.googlemail.com");
+        properties.put("mail.smtp.ssl.trust", "smtp.gmail.com");
+        properties.put("mail.smtp.starttls", "true");
         properties.put("mail.smtp.socketFactory.port", "465");
         properties.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
         properties.put("mail.smtp.auth", "true");
@@ -51,7 +53,7 @@ public class Mail {
             message.setFrom(new InternetAddress(correo));
             message.setSubject("Confirmación de cuenta");
             message.setRecipients(Message.RecipientType.TO,InternetAddress.parse(destinatario));
-            message.setContent("¡BIENVENIDO A JOGO! Pulsa sobre el siguiente link para confirmar la cuenta \n http://localhost/Jogo/confirmar.php?usuario="+usuario,"text/html; charset=utf-8");
+            message.setContent("¡BIENVENIDO A JOGO! \nPulsa sobre el siguiente link para confirmar la cuenta \n http://localhost/Jogo/confirmar.php?usuario="+usuario,"text/html; charset=utf-8");
             Transport.send(message);
         }
     }

@@ -35,7 +35,7 @@ public class Contrasena extends AppCompatActivity {
         String pattern = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=.])(?=\\S+$).{8,}$";
         String c = contrasena.getText().toString();
         String cR = contrasenaR.getText().toString();
-        if(c.equals("") == false && c.equals("") == false){
+        if(c.equals("") == false && cR.equals("") == false){
             if(c.equals(cR) == true){
                 if(c.matches(pattern)) {
                     try {
@@ -44,12 +44,17 @@ public class Contrasena extends AppCompatActivity {
                         Mail mail = new Mail();
                         mail.enviarCorreo(correo, usuario);
                         Toast.makeText(this, "Revista tu correo para confirmar la cuenta", Toast.LENGTH_LONG).show();
+                        Intent t = new Intent(this, Login.class);
+                        startActivity(t);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }else{
                     Toast.makeText(Contrasena.this, "La contraseña no es segura", Toast.LENGTH_LONG).show();
                 }
+            }
+            else{
+                Toast.makeText(this, "Las contraseñas no coinciden", Toast.LENGTH_LONG).show();
             }
         }
         else{
