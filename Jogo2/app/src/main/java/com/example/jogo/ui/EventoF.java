@@ -6,6 +6,8 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TabHost;
 import android.widget.TextView;
 
@@ -65,33 +67,54 @@ public class EventoF extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_evento,
                 container, false);
-        TabHost tabHost = (TabHost) view.findViewById(R.id.tab);
-        tabHost.setup();
-        tabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
 
+        // TAB HOST
+            TabHost tabHost = (TabHost) view.findViewById(R.id.tab);
+            tabHost.setup();
+            tabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
+
+                @Override
+                public void onTabChanged(String tabId) {
+
+                    for (int i = 0; i < tabHost.getTabWidget().getChildCount(); i++) {
+                        tabHost.getTabWidget().getChildAt(i).setBackgroundColor(Color.parseColor("#FFFBD9")); // unselected
+                        TextView tv = (TextView) tabHost.getTabWidget().getChildAt(i).findViewById(android.R.id.title); //Unselected Tabs
+                        tv.setTextColor(Color.parseColor("#C6C6C6"));
+                    }
+
+                    tabHost.getTabWidget().getChildAt(tabHost.getCurrentTab()).setBackgroundColor(Color.parseColor("#FFF1C0")); // selected
+                    TextView tv = (TextView) tabHost.getCurrentTabView().findViewById(android.R.id.title); //for Selected Tab
+                    tv.setTextColor(Color.parseColor("#6F6A6A"));
+
+                }});
+
+            TabHost.TabSpec tab1 = tabHost.newTabSpec("tab1");
+            tab1.setIndicator("EVENTO");
+            tab1.setContent(R.id.eventoF);
+            TabHost.TabSpec tab2 = tabHost.newTabSpec("tab2");
+            tab2.setIndicator("CREAR");
+            tab2.setContent(R.id.crear);
+            tabHost.addTab(tab1);
+            tabHost.addTab(tab2);
+
+        // FORMULARIO CREAR EVENTO
+        EditText nombreE = (EditText) view.findViewById(R.id.nombreE);
+        EditText calleE = (EditText) view.findViewById(R.id.calleE);
+        EditText localidadE = (EditText) view.findViewById(R.id.localidadE);
+        EditText comunidad = (EditText) view.findViewById(R.id.comunidadE);
+        EditText plazasE = (EditText) view.findViewById(R.id.plazasE);
+        EditText descripcionE = (EditText) view.findViewById(R.id.descripcionE);
+
+        Button crearE = (Button) view.findViewById(R.id.crearE);
+        crearE.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onTabChanged(String tabId) {
+            public void onClick(View v)
+            {
 
-                for (int i = 0; i < tabHost.getTabWidget().getChildCount(); i++) {
-                    tabHost.getTabWidget().getChildAt(i).setBackgroundColor(Color.parseColor("#FFFBD9")); // unselected
-                    TextView tv = (TextView) tabHost.getTabWidget().getChildAt(i).findViewById(android.R.id.title); //Unselected Tabs
-                    tv.setTextColor(Color.parseColor("#C6C6C6"));
-                }
-
-                tabHost.getTabWidget().getChildAt(tabHost.getCurrentTab()).setBackgroundColor(Color.parseColor("#FFF1C0")); // selected
-                TextView tv = (TextView) tabHost.getCurrentTabView().findViewById(android.R.id.title); //for Selected Tab
-                tv.setTextColor(Color.parseColor("#6F6A6A"));
-
-            }});
-
-        TabHost.TabSpec tab1 = tabHost.newTabSpec("tab1");
-        tab1.setIndicator("EVENTO");
-        tab1.setContent(R.id.eventoF);
-        TabHost.TabSpec tab2 = tabHost.newTabSpec("tab2");
-        tab2.setIndicator("CREAR");
-        tab2.setContent(R.id.crear);
-        tabHost.addTab(tab1);
-        tabHost.addTab(tab2);
+            }
+        });
         return view;
+
     }
 }

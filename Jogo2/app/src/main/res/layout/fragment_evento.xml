@@ -38,8 +38,27 @@
                     android:background="#FFFAFA" >
 
                     <EditText
+                        android:id="@+id/descripcionE"
+                        android:layout_width="250dp"
+                        android:layout_height="272dp"
+                        android:background="#EAE4E4"
+                        android:ems="10"
+                        android:gravity="start"
+                        android:inputType="textPersonName"
+                        android:paddingLeft="6dp"
+                        android:text="*Descripcion"
+                        android:textAlignment="gravity"
+                        android:textColor="#5E5E5E"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.621"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.776" />
+
+                    <EditText
                         android:id="@+id/nombreE"
-                        android:layout_width="267dp"
+                        android:layout_width="250dp"
                         android:layout_height="43dp"
                         android:background="#EAE4E4"
                         android:ems="10"
@@ -47,15 +66,17 @@
                         android:paddingLeft="6dp"
                         android:text="*Nombre"
                         android:textAlignment="gravity"
+                        android:textColor="#5E5E5E"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.621"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="0.042" />
+                        app:layout_constraintVertical_bias="0.025" />
 
                     <EditText
                         android:id="@+id/calleE"
-                        android:layout_width="267dp"
+                        android:layout_width="250dp"
                         android:layout_height="43dp"
                         android:background="#EAE4E4"
                         android:ems="10"
@@ -63,15 +84,17 @@
                         android:paddingLeft="6dp"
                         android:text="*Calle"
                         android:textAlignment="gravity"
+                        android:textColor="#5E5E5E"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.621"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="0.14" />
+                        app:layout_constraintVertical_bias="0.113" />
 
                     <EditText
-                        android:id="@+id/calleE2"
-                        android:layout_width="267dp"
+                        android:id="@+id/localidadE"
+                        android:layout_width="250dp"
                         android:layout_height="43dp"
                         android:background="#EAE4E4"
                         android:ems="10"
@@ -79,27 +102,86 @@
                         android:paddingLeft="6dp"
                         android:text="*Localidad"
                         android:textAlignment="gravity"
+                        android:textColor="#5E5E5E"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.621"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="0.238" />
+                        app:layout_constraintVertical_bias="0.204" />
 
                     <EditText
-                        android:id="@+id/editTextNumber"
-                        android:layout_width="266dp"
+                        android:id="@+id/comunidadE"
+                        android:layout_width="250dp"
+                        android:layout_height="43dp"
+                        android:background="#EAE4E4"
+                        android:ems="10"
+                        android:inputType="textPersonName"
+                        android:paddingLeft="6dp"
+                        android:text="*Comunidad Autónoma"
+                        android:textAlignment="gravity"
+                        android:textColor="#5E5E5E"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.614"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.302" />
+
+                    <EditText
+                        android:id="@+id/plazasE"
+                        android:layout_width="250dp"
                         android:layout_height="48dp"
                         android:background="#EAE4E4"
                         android:ems="10"
                         android:inputType="number"
                         android:paddingLeft="6dp"
                         android:text="Nº Plazas"
+                        android:textColor="#5E5E5E"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.496"
+                        app:layout_constraintHorizontal_bias="0.614"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="0.342" />
+                        app:layout_constraintVertical_bias="0.398" />
+
+                    <Button
+                        android:id="@+id/crearE"
+                        android:layout_width="250dp"
+                        android:layout_height="45dp"
+                        android:backgroundTint="#BEF8C4"
+                        android:text="CREAR EVENTO"
+                        android:textColor="#3CE500"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.621"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.953" />
+
+                    <TextView
+                        android:id="@+id/textView4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="pablofguillen"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.012"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.134" />
+
+                    <ImageView
+                        android:id="@+id/imageView6"
+                        android:layout_width="80dp"
+                        android:layout_height="77dp"
+                        android:src="@drawable/ic_launcher_foreground"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.012"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.005" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
