@@ -58,8 +58,6 @@ public class Login extends AppCompatActivity {
                         c.putExtra("usuario", nUsuario);
                         c.putExtra("contraseña", password);
                         startActivity(c);
-
-
                     }
                     else{
                         Toast.makeText(Login.this, "Valida tu cuenta de Jogo. Comprueba tu correo.", Toast.LENGTH_LONG).show();
@@ -67,7 +65,7 @@ public class Login extends AppCompatActivity {
                 }
 
             } catch (Exception e) {
-
+                System.out.println(e.getMessage());
             }
         }
         else{

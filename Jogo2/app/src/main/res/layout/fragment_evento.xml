@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.EventoF">
+
+    <TabHost
+        android:id="@+id/tab"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TabWidget
+                android:id="@android:id/tabs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#FFF1C0" />
+
+            <FrameLayout
+                android:id="@android:id/tabcontent"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/eventoF"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#FFFAFA" >
+
+                    <EditText
+                        android:id="@+id/nombreE"
+                        android:layout_width="267dp"
+                        android:layout_height="43dp"
+                        android:background="#EAE4E4"
+                        android:ems="10"
+                        android:inputType="textPersonName"
+                        android:paddingLeft="6dp"
+                        android:text="*Nombre"
+                        android:textAlignment="gravity"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.042" />
+
+                    <EditText
+                        android:id="@+id/calleE"
+                        android:layout_width="267dp"
+                        android:layout_height="43dp"
+                        android:background="#EAE4E4"
+                        android:ems="10"
+                        android:inputType="textPersonName"
+                        android:paddingLeft="6dp"
+                        android:text="*Calle"
+                        android:textAlignment="gravity"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.14" />
+
+                    <EditText
+                        android:id="@+id/calleE2"
+                        android:layout_width="267dp"
+                        android:layout_height="43dp"
+                        android:background="#EAE4E4"
+                        android:ems="10"
+                        android:inputType="textPersonName"
+                        android:paddingLeft="6dp"
+                        android:text="*Localidad"
+                        android:textAlignment="gravity"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.238" />
+
+                    <EditText
+                        android:id="@+id/editTextNumber"
+                        android:layout_width="266dp"
+                        android:layout_height="48dp"
+                        android:background="#EAE4E4"
+                        android:ems="10"
+                        android:inputType="number"
+                        android:paddingLeft="6dp"
+                        android:text="Nº Plazas"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.496"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.342" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/crear"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#FFFAFA" />
+
+            </FrameLayout>
+        </LinearLayout>
+    </TabHost>
+</FrameLayout>
