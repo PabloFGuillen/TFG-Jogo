@@ -4,10 +4,12 @@ import android.os.StrictMode;
 import android.widget.Toast;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Time;
 
 public class Conector {
     Connection con;
@@ -74,17 +76,22 @@ public class Conector {
         ps.executeUpdate();
     }
 
-    public String nombreUsuario(String usuario, String contrasena) throws SQLException {
-        PreparedStatement ps = con.prepareStatement("SELECT nombre FROM usuario WHERE (nombre = ? OR email = ?) AND contraseña = ?");
-        ps.setString(1, usuario);
-        ps.setString(2, usuario);
-        ps.setString(2, contrasena);
-        String usua = "";
-        ResultSet rs = ps.executeQuery();
-        while(rs.next()){
-            usua = rs.getString(1);
+    public void crearEvento(String ciudad, String calle, String comunidad, Time hora, Date dia, String nombre, String descripcion, int plazas){
+        try {
+            PreparedStatement ps = con.prepareStatement("INSERT INTO evento VALUES(?, ?, ?, ?, ?, ?, ?, ?");
+            ps.setString(1, ciudad);
+            ps.setString(2, calle);
+            ps.setString(3, comunidad);
+            ps.setTime(4, hora);
+            ps.setDate(5, dia);
+            ps.setString(6, nombre);
+            ps.setString(7, descripcion);
+            ps.setInt(8, plazas);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-        return usua;
+
     }
 
 

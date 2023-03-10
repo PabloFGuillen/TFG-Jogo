@@ -166,14 +166,15 @@
                         app:layout_constraintVertical_bias="0.955" />
 
                     <TextView
-                        android:id="@+id/textView4"
+                        android:id="@+id/creadorE"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="pablofguillen"
+                        android:gravity="center"
+                        android:text="pablo"
                         android:textColor="#5E5E5E"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.03"
+                        app:layout_constraintHorizontal_bias="0.07"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintVertical_bias="0.134" />
@@ -194,15 +195,31 @@
                         android:id="@+id/fechaE"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:gravity="center"
                         android:text="TextView"
                         android:textColor="#5E5E5E"
                         android:textSize="18dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.056"
+                        app:layout_constraintHorizontal_bias="0.04"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintVertical_bias="0.222" />
+
+                    <TextView
+                        android:id="@+id/horaE"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="TextView"
+                        android:textColor="#5E5E5E"
+                        android:textSize="18dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.04"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.291" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 

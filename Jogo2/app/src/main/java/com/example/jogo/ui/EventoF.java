@@ -1,10 +1,13 @@
 package com.example.jogo.ui;
 
 import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
+
+import android.telephony.TelephonyDisplayInfo;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,11 +16,22 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TabHost;
 import android.widget.TextView;
+import android.widget.TimePicker;
+import android.widget.Toast;
 
+import com.example.jogo.ComprobacionNominatum;
+import com.example.jogo.Conector;
 import com.example.jogo.DatePickerFragment;
+import com.example.jogo.Persona;
 import com.example.jogo.R;
 
+import java.io.IOException;
+import java.sql.Date;
+import java.sql.SQLException;
+import java.sql.Time;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.StringTokenizer;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -32,6 +46,10 @@ public class EventoF extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private TextView fecha;
+    private TextView hora;
+    private TextView creador;
+    private String fechaSQL;
+    int hour= 0, minute = 0;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -111,11 +129,28 @@ public class EventoF extends Fragment {
         EditText plazasE = (EditText) view.findViewById(R.id.plazasE);
         EditText descripcionE = (EditText) view.findViewById(R.id.descripcionE);
         this.fecha = (TextView) view.findViewById(R.id.fechaE);
-
+        this.hora = (TextView) view.findViewById(R.id.horaE);
+        this.creador = (TextView) view.findViewById(R.id.creadorE);
+        Persona persona = new Persona();
+        this.creador.setText(String.valueOf(persona.getNombreU()));
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            fecha.setText(String.valueOf(LocalDate.now().getDayOfMonth()) + "/" +
-                            String.valueOf(LocalDate.now().getMonthValue()) + "\n" +
-                            String.valueOf(LocalDate.now().getYear()));
+            int anio, mes, dia;
+            dia = LocalDate.now().getDayOfMonth();
+            mes = LocalDate.now().getMonthValue();
+            anio = LocalDate.now().getYear();
+            fechaSQL = String.valueOf(anio)+"-"+String.valueOf(mes)+"-"+String.valueOf(dia);
+            fecha.setText(String.valueOf(dia) + "/" +
+                            String.valueOf(mes) + "\n" +
+                            String.valueOf(anio));
+            int mi = Integer.parseInt(String.valueOf(LocalDateTime.now().getMinute()));
+            String minuto = "";
+            if(mi >= 0 && mi <= 9){
+                minuto = "0" + String.valueOf(mi);
+            }
+            else{
+                minuto = String.valueOf(LocalDateTime.now().getMinute());
+            }
+            hora.setText(String.valueOf(LocalDateTime.now().getHour()) + ":" + minuto);
         }
         TextView etPlannedDate = (TextView) view.findViewById(R.id.fechaE);
         etPlannedDate.setOnClickListener(new View.OnClickListener() {
@@ -129,18 +164,66 @@ public class EventoF extends Fragment {
         }
         });
 
+        this.hora.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                TimePickerDialog.OnTimeSetListener onTimeSetListener = new TimePickerDialog.OnTimeSetListener()
+                {
+                    @Override
+                    public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
+                        hour = selectedHour;
+                        minute = selectedMinute;
+                        hora.setText(String.valueOf(hour)+":"+String.valueOf(minute));
+                    }
+                };
+                TimePickerDialog timePickerDialog = new TimePickerDialog(getContext(), onTimeSetListener, hour, minute, true);
+                timePickerDialog.setTitle("Select Time");
+                timePickerDialog.show();
+            }
+        }
+        );
 
         Button crearE = (Button) view.findViewById(R.id.crearE);
         crearE.setOnClickListener(new View.OnClickListener()
         {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
+                if (nombreE.getText().toString().equals("") == false && calleE.getText().toString().equals("") == false && localidadE.getText().toString().equals("") == false && comunidad.getText().toString().equals("") == false && descripcionE.getText().toString().equals("") == false) {
+                    ComprobacionNominatum comprobacionNominatum = new ComprobacionNominatum(calleE.getText().toString(), localidadE.getText().toString());
+                    boolean comprobacion = false;
+                    try {
+                        comprobacion = comprobacionNominatum.comprobar();
+                        if (comprobacion == true) {
+                            Toast.makeText(getContext(), "La ubicación existe", Toast.LENGTH_LONG).show();
+                            try {
+                                Time horas = java.sql.Time.valueOf(hora.getText().toString() + ":00");
+                                Date fechas = java.sql.Date.valueOf(fechaSQL);
+                                Conector con = new Conector();
+                                con.crearEvento(localidadE.getText().toString(), calleE.getText().toString(), comunidad.getText().toString(), horas, fechas, nombreE.getText().toString(), descripcionE.getText().toString(), Integer.parseInt(plazasE.getText().toString()));
+                            } catch (ClassNotFoundException e) {
+                                e.printStackTrace();
+                            } catch (SQLException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        else{
+                            Toast.makeText(getContext(), "La ubicación no existe", Toast.LENGTH_LONG).show();
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
 
+                }
+                else{
+                    Toast.makeText(getContext(), "Por favor, rellene los campos obligatorios", Toast.LENGTH_LONG).show();
+                }
             }
         });
         return view;
     }
+
+
+
     private void showDatePickerDialog() {
         DatePickerFragment newFragment = DatePickerFragment.newInstance(new DatePickerDialog.OnDateSetListener() {
             @Override
@@ -148,6 +231,7 @@ public class EventoF extends Fragment {
                 // +1 because January is zero
                 final String selectedDate = day + "/" + (month+1) + "\n " + year;
                 fecha.setText(selectedDate);
+                fechaSQL = String.valueOf(year)+"-"+String.valueOf(month)+"-"+String.valueOf(day);
             }
         });
 
