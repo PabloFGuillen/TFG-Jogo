@@ -31,6 +31,7 @@ public class Login extends AppCompatActivity {
     public EditText usuario, contraseña;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ActionBar actionBar = getSupportActionBar();
@@ -53,7 +54,6 @@ public class Login extends AppCompatActivity {
                     File ficheroXML = new File("/storage/emulated/0/users.xml");
                     validado = con.validad(nUsuario, password);
                     if(validado == true){
-                        Persona persona = new Persona(nUsuario);
                         Intent c = new Intent(Login.this, pantalla_p.class);
                         c.putExtra("usuario", nUsuario);
                         c.putExtra("contraseña", password);

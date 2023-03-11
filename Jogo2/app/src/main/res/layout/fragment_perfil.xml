@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="#FFFAFA"
     android:textAlignment="center"
-    tools:context=".ui.perfil.PerfilFragment">
+    tools:context=".ui.erfilF">
 
     <ImageView
         android:id="@+id/imageView"
@@ -52,7 +52,7 @@
         android:layout_height="31dp"
         android:backgroundTint="#F5BAB6"
         android:onClick="salir"
-        android:text="Button"
+        android:text="Salir"
         android:textColor="#F07B61"
         android:textSize="8sp"
         app:layout_constraintBottom_toBottomOf="parent"

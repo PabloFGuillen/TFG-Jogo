@@ -10,5 +10,8 @@
         <item
             android:id="@+id/eventoF"
             android:title="EVENTO" />
+        <item
+            android:id="@+id/asistenciaF"
+            android:title="ASISTENCIAS" />
     </group>
 </menu>

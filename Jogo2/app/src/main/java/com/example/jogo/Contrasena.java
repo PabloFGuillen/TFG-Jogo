@@ -4,10 +4,16 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.google.zxing.BarcodeFormat;
+
+import java.io.ByteArrayOutputStream;
 
 public class Contrasena extends AppCompatActivity {
 
@@ -39,8 +45,13 @@ public class Contrasena extends AppCompatActivity {
             if(c.equals(cR) == true){
                 if(c.matches(pattern)) {
                     try {
+                        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.usuario);
+                        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                        bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+                        byte[] bytes = byteArrayOutputStream.toByteArray();
+
                         Conector con = new Conector();
-                        con.crearUsuario(usuario, c, correo);
+                        con.crearUsuario(usuario, c, correo, bytes);
                         Mail mail = new Mail();
                         mail.enviarCorreo(correo, usuario);
                         Toast.makeText(this, "Revista tu correo para confirmar la cuenta", Toast.LENGTH_LONG).show();

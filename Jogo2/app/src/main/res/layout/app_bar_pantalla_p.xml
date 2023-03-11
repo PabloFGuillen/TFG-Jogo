@@ -7,39 +7,22 @@
     tools:context=".pantalla_p">
 
     <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/Theme.Jogo.AppBarOverlay">
 
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="#EDD2AB"
+            app:popupTheme="@style/Theme.Jogo.PopupOverlay"
+            app:titleTextColor="#EDD2AB"/>
+
     </com.google.android.material.appbar.AppBarLayout>
 
-    <include
-        layout="@layout/content_pantalla_p"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="#EDD2AB"
-        app:popupTheme="@style/Theme.Jogo.PopupOverlay"
-        app:titleTextColor="#EDD2AB" />
-
-    <ImageView
-        android:id="@+id/imageView7"
-        android:layout_width="104dp"
-        android:layout_height="52dp"
-        app:layout_anchor="@+id/toolbar"
-        app:layout_anchorGravity="center"
-        app:srcCompat="@drawable/logo" />
-
-    <ImageView
-        android:id="@+id/fotoPerfilB"
-        android:layout_width="62dp"
-        android:layout_height="38dp"
-        app:layout_anchor="@+id/toolbar"
-        app:layout_anchorGravity="start|center"
-        app:srcCompat="@drawable/usuario" />
+    <include layout="@layout/content_pantalla_p" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
