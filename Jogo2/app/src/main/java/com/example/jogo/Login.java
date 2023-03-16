@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Xml;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -12,9 +13,11 @@ import android.widget.Toolbar;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.xmlpull.v1.XmlSerializer;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.OutputStreamWriter;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -51,12 +54,10 @@ public class Login extends AppCompatActivity {
                 if (encontrado == false) {
                     Toast.makeText(Login.this, "Nombre de usuario o contraseña incorrectos", Toast.LENGTH_LONG).show();
                 } else {
-                    File ficheroXML = new File("/storage/emulated/0/users.xml");
                     validado = con.validad(nUsuario, password);
                     if(validado == true){
                         Intent c = new Intent(Login.this, pantalla_p.class);
-                        c.putExtra("usuario", nUsuario);
-                        c.putExtra("contraseña", password);
+                        nUsuario = nUsuario.replaceAll(" ", "_");
                         startActivity(c);
                     }
                     else{

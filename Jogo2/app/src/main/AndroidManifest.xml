@@ -6,23 +6,38 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
+        android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Jogo"
-        tools:targetApi="31"
-        android:hardwareAccelerated="true">
+        tools:targetApi="31">
+        <activity
+            android:name=".Detalles_Evento"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <!-- El WindowsSoftInputMode es para impedir que al pulsar el teclado este se mueva hacia arriba -->
         <activity
             android:name=".pantalla_p"
             android:exported="false"
             android:label="@string/title_activity_pantalla_p"
-            android:theme="@style/Theme.Jogo.NoActionBar">
+            android:theme="@style/Theme.Jogo.NoActionBar"
+            android:windowSoftInputMode="adjustPan|stateHidden">
+
+            <!--
+            El WindowsSoftInputMode es para impedir que al pulsar el teclado
+            los elementos del ListView se mueva hacia arriba
+            -->
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />

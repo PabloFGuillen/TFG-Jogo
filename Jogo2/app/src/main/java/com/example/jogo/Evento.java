@@ -1,9 +1,17 @@
 package com.example.jogo;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
+
 import java.sql.Date;
 import java.sql.Time;
 
 public class Evento {
+    int id;
     private String ciudad;
     private String calle;
     private String localidad;
@@ -18,6 +26,13 @@ public class Evento {
     private double latitud;
     private double longitud;
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
     public double getLatitud() {
         return latitud;
     }
@@ -106,16 +121,28 @@ public class Evento {
         this.nombreU = nombreU;
     }
 
-    public byte[] getFotoU() {
-        return fotoU;
+    public Bitmap getFotoU() {
+        Bitmap bitmap = BitmapFactory.decodeByteArray(fotoU, 0, fotoU.length);
+        Bitmap transparentBitmap = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(transparentBitmap);
+        Paint paint = new Paint();
+        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
+        canvas.drawBitmap(bitmap, 0, 0, paint);
+        return bitmap;
     }
 
     public void setFotoU(byte[] fotoU) {
         this.fotoU = fotoU;
     }
 
-    public byte[] getQr() {
-        return qr;
+    public Bitmap getQr() {
+        Bitmap bitmap = BitmapFactory.decodeByteArray(qr, 0, qr.length);
+        Bitmap transparentBitmap = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(transparentBitmap);
+        Paint paint = new Paint();
+        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
+        canvas.drawBitmap(bitmap, 0, 0, paint);
+        return bitmap;
     }
 
     public void setQr(byte[] qr) {

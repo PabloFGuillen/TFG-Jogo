@@ -19,7 +19,7 @@ public class Conector {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
         Class.forName("com.mysql.jdbc.Driver");
-        con = DriverManager.getConnection("jdbc:mysql://192.168.1.64:3306/jogo","Android","android");
+        con = DriverManager.getConnection("jdbc:mysql://192.168.1.67:3306/jogo","Android","android");
     }
 
     public boolean login(String usuario, String contraseña) throws SQLException {
@@ -104,28 +104,33 @@ public class Conector {
         }
     }
 
-    public ArrayList<Evento> eventos()  {
+    public ArrayList<Evento> eventos(int distancia, double latitud, double longitud)  {
         try{
             PreparedStatement ps = con.prepareStatement("SELECT jogo.evento.*, jogo.usuario.foto FROM jogo.evento INNER JOIN jogo.usuario ON jogo.usuario.nombre = jogo.evento.nombre_usuario");
             ResultSet rs = ps.executeQuery();
             ArrayList<Evento> eventos = new ArrayList<Evento>();
             while(rs.next()){
-                Evento evento = new Evento();
-                evento.setCiudad(rs.getString(2));
-                evento.setCalle(rs.getString(3));
-                evento.setLocalidad(rs.getString(4));
-                evento.setHora(rs.getTime(5));
-                evento.setDia(rs.getDate(6));
-                evento.setNombre(rs.getString(7));
-                evento.setDescripcion(rs.getString(8));
-                evento.setPlazas(rs.getInt(9));
-                evento.setNombreU(rs.getString(10));
-                evento.setQr(rs.getBytes(11));
-                evento.setLatitud(rs.getDouble(12));
-                evento.setLongitud(rs.getDouble(13));
-                evento.setFotoU(rs.getBytes(14));
-                System.out.println(evento.getCalle());
-                eventos.add(evento);
+                double latitudE = rs.getDouble(12);
+                double longitudE = rs.getDouble(13);
+                if(calculateDistance(latitud, longitud, latitudE, longitudE) <= distancia) {
+                    Evento evento = new Evento();
+                    evento.setId(rs.getInt(1));
+                    evento.setCiudad(rs.getString(2));
+                    evento.setCalle(rs.getString(3));
+                    evento.setLocalidad(rs.getString(4));
+                    evento.setHora(rs.getTime(5));
+                    evento.setDia(rs.getDate(6));
+                    evento.setNombre(rs.getString(7));
+                    evento.setDescripcion(rs.getString(8));
+                    evento.setPlazas(rs.getInt(9));
+                    evento.setNombreU(rs.getString(10));
+                    evento.setQr(rs.getBytes(11));
+                    evento.setLatitud(rs.getDouble(12));
+                    evento.setLongitud(rs.getDouble(13));
+                    evento.setFotoU(rs.getBytes(14));
+                    System.out.println(evento.getCalle());
+                    eventos.add(evento);
+                }
             }
             return eventos;
         }catch (SQLException e) {
@@ -135,4 +140,25 @@ public class Conector {
     }
 
 
+    public double calculateDistance(double lat1, double lon1, double lat2, double lon2) {
+        double RADIUS_OF_EARTH_KM = 6371.01;
+        double dLat = Math.toRadians(lat2 - lat1);
+        double dLon = Math.toRadians(lon2 - lon1);
+        double a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2)) *
+                        Math.sin(dLon / 2) * Math.sin(dLon / 2);
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        return RADIUS_OF_EARTH_KM * c;
+    }
+
+    public void asistirEvento(String usuario, int id){
+        try {
+            PreparedStatement ps = con.prepareStatement("INSERT INTO asistir_evento VALUES (?, ?)");
+            ps.setString(1, usuario);
+            ps.setInt(2, id);
+            ps.executeUpdate();
+        }catch(Exception e){
+
+        }
+    }
 }

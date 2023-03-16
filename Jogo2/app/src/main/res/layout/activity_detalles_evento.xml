@@ -2,31 +2,19 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF"
-    android:onClick="detalleE">
-
-    <ImageView
-        android:id="@+id/qrDE2"
-        android:layout_width="131dp"
-        android:layout_height="124dp"
-        android:layout_below="@+id/descripcionEE"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="25dp"
-        android:layout_toEndOf="@+id/imageView7"
-        android:visibility="gone"
-        app:srcCompat="@drawable/ic_launcher_background" />
+    android:background="#FFF9E6"
+    tools:context=".Detalles_Evento">
 
     <Button
-        android:id="@+id/Asistir"
+        android:id="@+id/asistirDE"
         android:layout_width="208dp"
         android:layout_height="36dp"
-        android:layout_below="@+id/qrDE2"
-        android:layout_marginStart="39dp"
-        android:layout_marginTop="12dp"
-        android:layout_toEndOf="@+id/imageView7"
+        android:layout_below="@+id/qrDE"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="29dp"
+        android:layout_toEndOf="@+id/fotoUDE"
         android:backgroundTint="#BEF8C4"
         android:onClick="asistir"
         android:text="ASISTIR"
@@ -39,7 +27,7 @@
         app:layout_constraintVertical_bias="0.538" />
 
     <ImageView
-        android:id="@+id/imageView7"
+        android:id="@+id/fotoUDE"
         android:layout_width="75dp"
         android:layout_height="75dp"
         android:layout_marginStart="10dp"
@@ -55,11 +43,11 @@
         app:srcCompat="@drawable/usuario" />
 
     <TextView
-        android:id="@+id/nombreEE"
+        android:id="@+id/nombreDE"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
-        android:layout_toEndOf="@+id/imageView7"
+        android:layout_toEndOf="@+id/fotoUDE"
         android:maxWidth="208dp"
         android:maxHeight="40dp"
         android:text="TextView"
@@ -67,61 +55,61 @@
         android:textSize="25dp" />
 
     <TextView
-        android:id="@+id/ubicacionEE"
+        android:id="@+id/ubicacionDE"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/nombreEE"
+        android:layout_below="@+id/nombreDE"
         android:layout_marginStart="29dp"
         android:layout_marginTop="-2dp"
-        android:layout_toEndOf="@+id/imageView7"
+        android:layout_toEndOf="@+id/fotoUDE"
         android:text="TextView"
         android:textColor="#8D8D8D"
         android:textSize="10sp" />
 
     <TextView
-        android:id="@+id/descripcionEE"
+        android:id="@+id/descripcionDE"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/ubicacionEE"
+        android:layout_below="@+id/ubicacionDE"
         android:layout_marginStart="30dp"
         android:layout_marginTop="10dp"
-        android:layout_toEndOf="@+id/imageView7"
+        android:layout_toEndOf="@+id/fotoUDE"
         android:maxWidth="208dp"
-        android:maxHeight="40dp"
         android:text="DESCRIPCION"
         android:textColor="#595454" />
 
     <TextView
-        android:id="@+id/diaEE"
+        android:id="@+id/diaDE"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/nombreEE"
+        android:layout_below="@+id/nombreDE"
         android:layout_marginStart="247dp"
         android:layout_marginTop="-24dp"
-        android:layout_toEndOf="@+id/imageView7"
+        android:layout_toEndOf="@+id/fotoUDE"
         android:text="TextView"
         android:textColor="#8D8D8D" />
 
     <TextView
-        android:id="@+id/horaEE"
+        android:id="@+id/horaDE"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/nombreEE"
+        android:layout_below="@+id/nombreDE"
         android:layout_marginStart="247dp"
         android:layout_marginTop="30dp"
-        android:layout_toEndOf="@+id/imageView7"
+        android:layout_toEndOf="@+id/fotoUDE"
         android:text="TextView"
         android:textColor="#8D8D8D" />
 
     <TextView
-        android:id="@+id/nombreUE"
+        android:id="@+id/nombreUDE"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/imageView7"
-        android:layout_alignStart="@+id/imageView7"
+        android:layout_below="@+id/fotoUDE"
+        android:layout_alignStart="@+id/fotoUDE"
         android:layout_marginStart="12dp"
         android:layout_marginTop="3dp"
         android:gravity="center"
         android:text="TextView"
-        android:textColor="#8D8D8D" />
+        android:textColor="#5E5E5E" />
+
 </RelativeLayout>

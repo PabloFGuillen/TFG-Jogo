@@ -37,6 +37,7 @@ public class Usuario extends AppCompatActivity {
                 }
                 else{
                     Intent t = new Intent(Usuario.this, Contrasena.class);
+                    nUsuario = nUsuario.replaceAll(" ", "_");
                     t.putExtra("nombre", nUsuario);
                     t.putExtra("correo", correo);
                     startActivity(t);

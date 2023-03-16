@@ -18,5 +18,14 @@
         android:id="@+id/eventoF"
         android:name="com.example.jogo.ui.EventoF"
         android:label="fragment_evento"
-        tools:layout="@layout/fragment_evento" />
+        tools:layout="@layout/fragment_evento" >
+        <action
+            android:id="@+id/action_eventoF_to_detalles_Evento"
+            app:destination="@id/detalles_Evento" />
+    </fragment>
+    <activity
+        android:id="@+id/detalles_Evento"
+        android:name="com.example.jogo.Detalles_Evento"
+        android:label="activity_detalles_evento"
+        tools:layout="@layout/activity_detalles_evento" />
 </navigation>

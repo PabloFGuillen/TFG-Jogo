@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFFFFF"
     tools:context=".ui.EventoF">
 
     <TabHost
@@ -36,15 +37,16 @@
                     android:id="@+id/eventoF"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="#FFFAFA">
+                    android:background="#FDF0DB">
 
                     <ListView
                         android:id="@+id/Listview"
-                        android:layout_width="409dp"
-                        android:layout_height="735dp"
+                        android:layout_width="412dp"
+                        android:layout_height="591dp"
+                        android:background="#FFFEFE"
+                        android:paddingBottom="3dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintVertical_bias="1.0" />
@@ -54,12 +56,10 @@
                         android:layout_width="409dp"
                         android:layout_height="54dp"
                         android:src="@drawable/rectangulon"
-                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="0.0" />
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <EditText
                         android:id="@+id/editTextTextPersonName"
@@ -70,6 +70,7 @@
                         android:hint="Buscar"
                         android:inputType="textPersonName"
                         android:paddingLeft="6dp"
+                        android:textColor="#171717"
                         android:textColorHint="#252323"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -78,7 +79,7 @@
                         app:layout_constraintVertical_bias="0.00999999" />
 
                     <ImageButton
-                        android:id="@+id/imageButton3"
+                        android:id="@+id/escaner"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:src="@android:drawable/ic_menu_camera"
@@ -90,27 +91,31 @@
                         app:layout_constraintVertical_bias="0.002" />
 
                     <SeekBar
-                        android:id="@+id/seekBar"
-                        android:layout_width="350dp"
-                        android:layout_height="11dp"
+                        android:id="@+id/distancia"
+                        android:layout_width="323dp"
+                        android:layout_height="26dp"
+                        android:max="100"
+                        android:progress="1"
+                        android:progressBackgroundTint="#FF630D"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.262"
+                        app:layout_constraintHorizontal_bias="0.011"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="0.088" />
+                        app:layout_constraintVertical_bias="0.081" />
 
                     <TextView
-                        android:id="@+id/textView4"
+                        android:id="@+id/km"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="1km"
+                        android:text="TextView"
+                        android:textColor="#1B1B1B"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.994"
+                        app:layout_constraintHorizontal_bias="0.954"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="0.079" />
+                        app:layout_constraintVertical_bias="0.07999998" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -279,7 +284,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="TextView"
+                        android:text="BBB"
                         android:textColor="#5E5E5E"
                         android:textSize="18dp"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -294,7 +299,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="TextView"
+                        android:text="AAA"
                         android:textColor="#5E5E5E"
                         android:textSize="18dp"
                         app:layout_constraintBottom_toBottomOf="parent"

@@ -19,7 +19,7 @@
             android:layout_height="?attr/actionBarSize"
             android:background="#EDD2AB"
             app:popupTheme="@style/Theme.Jogo.PopupOverlay"
-            app:titleTextColor="#EDD2AB"/>
+            app:titleTextColor="#EDD2AB" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
