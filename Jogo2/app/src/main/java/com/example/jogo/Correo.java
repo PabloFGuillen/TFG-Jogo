@@ -31,13 +31,20 @@ public class Correo extends AppCompatActivity {
     public void siguiente(View view){
         String correo = email.getText().toString();
         boolean encontrado = false;
+        // Recogemos el correo y validamos si tiene una estructura correcta a.k.a si tiene arroba y otras caracteristicas.
+
+        // Si las cumple, se busca si el correo tiene una cuenta asociada.
         if(validarEmail(correo) == true) {
             try {
                 Conector con = new Conector();
                 encontrado = con.email(correo);
+                // Si tiene una cuenta asociada, se informa al usuario de dicha situación.
                 if (encontrado == true) {
                     Toast.makeText(Correo.this, "Este correo ya existe", Toast.LENGTH_LONG).show();
-                } else {
+                }
+                // En caso de que no tenga cuenta asociada, se manda dicha información al activity del nombre de usuario.
+                else {
+
                     Intent t = new Intent(Correo.this, Usuario.class);
                     t.putExtra("correo", correo);
                     startActivity(t);
@@ -47,17 +54,20 @@ public class Correo extends AppCompatActivity {
                 System.out.println(e.getMessage());
             }
         }
+        // Si el correo introducido no tiene una estructura adecuada, se informa al usuario.
         else{
             Toast.makeText(this, "Por favor, introduzca un correo válido", Toast.LENGTH_LONG).show();
         }
     }
 
     public void cancelar(View view){
+        //Esta función sirve para volver a la pantalla de logeo por si no quieres registarte.
         Intent t = new Intent(this, Login.class);
         startActivity(t);
     }
 
     public boolean validarEmail(String email){
+        // Aqui validamos el email.
         Pattern pattern = Patterns.EMAIL_ADDRESS;
         return pattern.matcher(email).matches();
     }

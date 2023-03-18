@@ -21,7 +21,9 @@ import org.w3c.dom.Text;
  * create an instance of this fragment.
  */
 public class PerfilF extends Fragment {
-
+    /* Fragment que tiene la información del perfil del usuario. Muestra el nombre de usuario y demas información como
+    evento creados.
+     */
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";

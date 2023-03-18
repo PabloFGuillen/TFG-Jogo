@@ -25,6 +25,15 @@ public class Evento {
     private byte[] qr;
     private double latitud;
     private double longitud;
+    private int plazas_disponibles;
+
+    public int getPlazas_disponibles() {
+        return plazas_disponibles;
+    }
+
+    public void setPlazas_disponibles(int plazas_disponibles) {
+        this.plazas_disponibles = plazas_disponibles;
+    }
 
     public int getId() {
         return id;

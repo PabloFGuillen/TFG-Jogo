@@ -29,15 +29,21 @@ public class Usuario extends AppCompatActivity {
 
     public void siguiente(View view){
         String nUsuario = usuario.getText().toString();
+        // Comprobamos que el nombre de usuario introducido njo se a un string vacio
+
+        // Comprobamos que el string no este vacio
         if(nUsuario.equals("") == false){
             try{
+                // Comprobamos que el nombre de usuario no exsita.
                 Conector con = new Conector();
                 if(con.usuario(nUsuario) == true){
                     Toast.makeText(Usuario.this, "El nombre de usuario ya existe", Toast.LENGTH_LONG).show();
                 }
                 else{
+                    // Si no existe, remplazamos los espacion en blanco por barras-bajas
                     Intent t = new Intent(Usuario.this, Contrasena.class);
                     nUsuario = nUsuario.replaceAll(" ", "_");
+                    // Mandamos dicha información al siguiente activity.
                     t.putExtra("nombre", nUsuario);
                     t.putExtra("correo", correo);
                     startActivity(t);
@@ -48,6 +54,7 @@ public class Usuario extends AppCompatActivity {
         }
     }
     public void cancelar(View view){
+        // Función para volver a la pantalla de logeo e caso de que no quieras registrarte.
         Intent t = new Intent(this, Login.class);
         startActivity(t);
     }

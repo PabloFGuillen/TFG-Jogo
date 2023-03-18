@@ -8,13 +8,26 @@
     android:background="#FFFFFF"
     android:onClick="detalleE">
 
+    <TextView
+        android:id="@+id/disponibles"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/descripcionEE"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="8dp"
+        android:layout_toEndOf="@+id/imageView7"
+        android:gravity="start"
+        android:text="TextView"
+        android:textColor="#8D8D8D"
+        android:visibility="gone" />
+
     <ImageView
         android:id="@+id/qrDE2"
         android:layout_width="131dp"
         android:layout_height="124dp"
-        android:layout_below="@+id/descripcionEE"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="25dp"
+        android:layout_below="@+id/disponibles"
+        android:layout_marginStart="85dp"
+        android:layout_marginTop="19dp"
         android:layout_toEndOf="@+id/imageView7"
         android:visibility="gone"
         app:srcCompat="@drawable/ic_launcher_background" />

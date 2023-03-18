@@ -54,6 +54,7 @@ import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.StringTokenizer;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -63,6 +64,7 @@ import java.util.List;
  */
 public class EventoF extends Fragment {
 
+    /* Fragment que sirve para ver los eventos cerca de la ubicación así como crear evento*/
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -111,10 +113,15 @@ public class EventoF extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_evento,
                 container, false);
+        //Tenemos 3 hilos distintos para aminorar la carga de trabajo del hilo principañ
+
+        //Primer hilo
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 // TAB HOST
+
+                // Especificamos los tabs que van a existirs, así como sus nombres
                 TabHost tabHost = (TabHost) view.findViewById(R.id.tab);
                 tabHost.setup();
                 TabHost.TabSpec tab1 = tabHost.newTabSpec("tab1");
@@ -127,7 +134,7 @@ public class EventoF extends Fragment {
                 tabHost.addTab(tab2);
 
                 tabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
-
+                // Aquí lo que hacemos es cambiar los colores que pasan al seleccionar los tabs
                     @Override
                     public void onTabChanged(String tabId) {
 
@@ -287,13 +294,18 @@ public class EventoF extends Fragment {
             @Override
             public void run() {
                 // TAB DE EVENTOS EN TU ZONA
-                //Pedimos permisos de acceder a la ubicación del móvil.
+
+                // Inicializamos variables
                 TextView ubicacion = (TextView) view.findViewById(R.id.km);
                 SeekBar distancia = (SeekBar) view.findViewById(R.id.distancia);
                 ubicacion.setText(String.valueOf(distancia.getProgress()));
                 ImageButton escaner = (ImageButton) view.findViewById(R.id.escaner);
                 listView = (ListView) view.findViewById(R.id.Listview);
+
+                // Esta funcion muestra eventos según la distancia de radio especificada.
                 GPS(view, distancia.getProgress());
+
+                // Aquí hacemos tareas dependiendo de la barra.
                 distancia.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
                     @Override
                     public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
@@ -338,15 +350,19 @@ public class EventoF extends Fragment {
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data){
+        // Esto es el escaner de qr que tenemos implementado. Escaneará el qr y te unirá automaticamente al evento.
         super.onActivityResult(requestCode, resultCode, data);
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
         String datos = result.getContents();
         //Aqui lanzamos a un activity pa mostar el evento escaneado.
+        StringTokenizer token = new StringTokenizer(datos, "|");
+        Evento evento = new Evento();
 
 
     }
 
     public void GPS(View view, int distancia){
+        // Aquí pedimos permisos al usuario para acceder a la ubicación del gps.
         int MY_PERMISSIONS = 0;
         int permisoSMS = ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION);
         if (permisoSMS != PackageManager.PERMISSION_GRANTED) {
@@ -362,6 +378,8 @@ public class EventoF extends Fragment {
                             android.Manifest.permission.ACCESS_COARSE_LOCATION},
                     MY_PERMISSIONS);
         }
+
+        // Aquí recogemos altitud y latitud.
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(getContext());
         fusedLocationClient.getLastLocation()
                 .addOnSuccessListener(getActivity(), new OnSuccessListener<Location>() {
@@ -371,6 +389,7 @@ public class EventoF extends Fragment {
                             latitud = location.getLatitude();
                             longitud = location.getLongitude();
                             Conector con = new Conector();
+                            // Recogemos eventos en un arraylist segund la distancia max, la latitud y la longitud.
                             lista = con.eventos(distancia, latitud, longitud);
                             Adaptador adaptadorEjemplo = new Adaptador(
                                     getContext(),
@@ -388,11 +407,3 @@ public class EventoF extends Fragment {
                 });
     }
 }
-
-                                    /*detalle_evento detalle = new detalle_evento();
-                                    detalle.setEvento(lista.get(i));
-                                    FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                                    fragmentTransaction.add(R.id.tab, detalle);
-                                    fragmentTransaction.addToBackStack(null);
-                                    fragmentTransaction.commit();*/

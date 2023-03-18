@@ -29,8 +29,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        //Ocultamos la barra que sale con el nombre de la aplicación.
         ActionBar actionBar = getSupportActionBar();
         actionBar.hide();
+        /* Aquí buscamos el ficheroXML en el que gaurdamos el nombre de usuario y la contraseña
+           para poder saltar directamente a la pantalla principal.*/
+
+        // Si no existe saltamos a la pantalla de logeo
         File ficheroXML = new File(".","login.xml");
         if(ficheroXML.exists() == false){
             FileOutputStream fos = null;
@@ -50,26 +55,32 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }, 3000);
         }
+        /* En caso de que exista, recogemos los datoss del fichero para poder iniciar sesión.*/
         else{
             try {
-
+                //Inicamos proceso de lectura.
                 try {
                     Context context = getApplicationContext();
                     FileInputStream fis = null;
+                    // Especificamos el nombre del fichero
                     fis = context.openFileInput("login.xml");
                     XmlPullParserFactory xmlPullParserFactory = XmlPullParserFactory.newInstance();
                     XmlPullParser parser = xmlPullParserFactory.newPullParser();
                     parser.setInput(fis, null);
                     String nUsuario = "";
                     String password = "";
+                    // Recogemos los valores
                     int eventType = parser.getEventType();
                     while (eventType != XmlPullParser.END_DOCUMENT) {
                         switch (eventType) {
                             case XmlPullParser.START_TAG:
                                 String tagname = parser.getName();
+                                // Miramos el valor de la etiqueta nombre
                                 if (tagname.equalsIgnoreCase("nombre")) {
                                     nUsuario = parser.nextText();
                                 }
+
+                                //Miramos el valor de la etiqueta contraseña
                                 else if(tagname.equalsIgnoreCase("contrasena")){
                                     password = parser.nextText();
                                 }
@@ -79,6 +90,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                         eventType = parser.next();
                     }
+                    // Aquí comprobamos que la contraseña y usuario coinciden para ir a la pantalla principal
                     Conector con = new Conector();
                     boolean encontrado = con.login(nUsuario, password);
                     Intent c = new Intent(this, pantalla_p.class);

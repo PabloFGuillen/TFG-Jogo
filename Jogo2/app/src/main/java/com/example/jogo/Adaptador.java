@@ -25,7 +25,7 @@ public class Adaptador extends ArrayAdapter<Evento> {
     private Context ctx;
     private int layoutTemplate;
     private List<Evento> ejemplo;
-
+    boolean aumentado = false;
     public Adaptador(@NonNull Context context, int resource, @NonNull List<Evento> objects) {
         super(context, resource, objects);
         this.ctx = context;
@@ -36,6 +36,7 @@ public class Adaptador extends ArrayAdapter<Evento> {
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+        // Inicializamos variables.
         View v = LayoutInflater.from(ctx).inflate(layoutTemplate, parent, false);
         Evento evento = ejemplo.get(position);
         TextView nombreEE = (TextView) v.findViewById(R.id.nombreEE);
@@ -45,22 +46,33 @@ public class Adaptador extends ArrayAdapter<Evento> {
         TextView hora = (TextView) v.findViewById(R.id.horaEE);
         TextView nombreU = (TextView) v.findViewById(R.id.nombreUE);
         ImageView qr = (ImageView) v.findViewById(R.id.qrDE2);
-        boolean aumentado = false;
+        TextView disponibles = (TextView) v.findViewById(R.id.disponibles);
+        ImageView fotoU = (ImageView) v.findViewById(R.id.imageView7);
+
+        // Lo que hacemos es mostrar el nombre de usuario, evento, localidad, dia, hora así como nombre y qr
+        fotoU.setImageBitmap(evento.getFotoU());
         RelativeLayout layout = (RelativeLayout) v.findViewById(R.id.layout);
         layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(aumentado == false) {
-                    nombreEE.setMaxHeight(100);
+                    // Si el usuario le click, se expande con toda la información del evento
+                    nombreEE.setMaxHeight(1000);
                     nombreEE.setText(evento.getNombre());
-                    descripcion.setMaxHeight(100);
+                    descripcion.setMaxHeight(1000);
                     descripcion.setText(evento.getDescripcion());
                     qr.setVisibility(View.VISIBLE);
                     qr.setImageBitmap(evento.getQr());
+                    disponibles.setVisibility(View.VISIBLE);
+                    disponibles.setText("Plazas Disponibles: " + String.valueOf(evento.getPlazas_disponibles()));
+                    aumentado = true;
                 }
                 else{
-                    nombreU.setMaxHeight(40);
-                    descripcion.setMaxHeight(40);
+                    // En caso contrario, lo que hacemos es mostrar una versión reducido.
+
+                    //(No mostramos ni qr ni plazas disponibles)
+                    nombreU.setMaxHeight(80);
+                    descripcion.setMaxHeight(100);
                     if(evento.getDescripcion().length() > 55) {
                         descripcion.setText(evento.getDescripcion().substring(0, 55).trim()+"...");
                     }
@@ -73,6 +85,10 @@ public class Adaptador extends ArrayAdapter<Evento> {
                     else{
                         nombreEE.setText(evento.getNombre());
                     }
+                    qr.setVisibility(View.GONE);
+                    disponibles.setVisibility(View.GONE);
+                    aumentado = false;
+
                 }
 
             }

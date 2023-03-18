@@ -43,17 +43,21 @@ public class Login extends AppCompatActivity {
         contraseña = (EditText) findViewById(R.id.contraseña);
     }
 
+    // Funcion que se ejecuta al pulsar sobre el bóton de iniciar sesion
     public void inicioS(View view){
         String nUsuario = usuario.getText().toString();
         String password = contraseña.getText().toString();
+        // Recogemos el nombre de usuario y la contraseña.
         if(nUsuario.equals("") == false && contraseña.equals("")==false) {
             try {
+                // Comprobamos si el nombre de usuario existe
                 Conector con = new Conector();
                 boolean encontrado = con.login(nUsuario, password);
                 boolean validado = false;
                 if (encontrado == false) {
                     Toast.makeText(Login.this, "Nombre de usuario o contraseña incorrectos", Toast.LENGTH_LONG).show();
                 } else {
+                    // Comprobamos si la cuenta de la aplicación a sido validada por medio del correo electrónico.
                     validado = con.validad(nUsuario, password);
                     if(validado == true){
                         Intent c = new Intent(Login.this, pantalla_p.class);
@@ -61,6 +65,7 @@ public class Login extends AppCompatActivity {
                         startActivity(c);
                     }
                     else{
+                        // Si no ha sido validada, se informa al usuario
                         Toast.makeText(Login.this, "Valida tu cuenta de Jogo. Comprueba tu correo.", Toast.LENGTH_LONG).show();
                     }
                 }
@@ -70,16 +75,15 @@ public class Login extends AppCompatActivity {
             }
         }
         else{
+            // Si no se ha introducido nombre de usuario y contraseña, se pide al usuario que lo introduzca
             Toast.makeText(this, "Por favor, introduzca usuario y contraseña", Toast.LENGTH_LONG).show();
         }
     }
 
     public void registrarse(View view){
+        //Aquí lo que hacemos es llevar a la pantalla de registro de correo electronico.
         Intent t = new Intent(this, Correo.class);
         startActivity(t);
     }
 
-    public void crearEscribir(String nUsuario, String password){
-        //
-    }
 }

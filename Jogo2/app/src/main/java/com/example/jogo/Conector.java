@@ -106,7 +106,7 @@ public class Conector {
 
     public ArrayList<Evento> eventos(int distancia, double latitud, double longitud)  {
         try{
-            PreparedStatement ps = con.prepareStatement("SELECT jogo.evento.*, jogo.usuario.foto FROM jogo.evento INNER JOIN jogo.usuario ON jogo.usuario.nombre = jogo.evento.nombre_usuario");
+            PreparedStatement ps = con.prepareStatement("SELECT event.*, jogo.usuario.foto, event.plazas - (SELECT count(*) FROM jogo.asistir_evento WHERE jogo.asistir_evento.id = event.id)  AS plazas_disponibles FROM jogo.evento  AS `event` INNER JOIN jogo.usuario ON jogo.usuario.nombre = event.nombre_usuario");
             ResultSet rs = ps.executeQuery();
             ArrayList<Evento> eventos = new ArrayList<Evento>();
             while(rs.next()){
@@ -128,6 +128,7 @@ public class Conector {
                     evento.setLatitud(rs.getDouble(12));
                     evento.setLongitud(rs.getDouble(13));
                     evento.setFotoU(rs.getBytes(14));
+                    evento.setPlazas_disponibles(rs.getInt(15));
                     System.out.println(evento.getCalle());
                     eventos.add(evento);
                 }

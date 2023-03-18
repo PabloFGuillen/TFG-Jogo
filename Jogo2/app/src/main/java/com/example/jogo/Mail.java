@@ -24,8 +24,11 @@ public class Mail {
     Properties properties;
 
     public Mail(){
+        // Aquí pones la información del mail, el tipo de conexión, si nos fiamos o no, el puerto...
         correo = "jogoeventsapp@gmail.com";
         contraseña = "qmffbyrujcxvandb";
+
+        // Esto es para hacer que todo se ejecute en un mismo hilo.
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         properties = new Properties();
         properties.put("mail.smtp.host", "smtp.googlemail.com");
@@ -35,6 +38,8 @@ public class Mail {
         properties.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
         properties.put("mail.smtp.auth", "true");
         properties.put("mail.smtp.port", "465");
+
+        // Iniciamos sesión con la contraseña especificada.
         try{
             session = javax.mail.Session.getDefaultInstance(properties, new Authenticator() {
                 @Override
@@ -48,7 +53,11 @@ public class Mail {
     }
 
     public void enviarCorreo(String destinatario, String usuario) throws MessagingException {
+        // Aqui enviamos el correo
+
+        // Comprobamos si la sesion se ha podido iniciar.
         if(session != null){
+            // Creamos el mensaje. Especifiamos asunto, destinatarop y el contenido. Luego, se envía.
             Message message = new MimeMessage(session);
             message.setFrom(new InternetAddress(correo));
             message.setSubject("Confirmación de cuenta");

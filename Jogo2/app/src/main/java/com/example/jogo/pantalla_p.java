@@ -1,13 +1,19 @@
 package com.example.jogo;
 
+
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Menu;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+
+
 import com.google.android.material.navigation.NavigationView;
 
+import androidx.appcompat.widget.Toolbar;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -19,6 +25,8 @@ import com.example.jogo.databinding.ActivityPantallaPBinding;
 
 public class pantalla_p extends AppCompatActivity {
 
+    /* Esta clase se es la del navigation drawer. Lo unico imporante de aquí es el intento de cambiar el menú hamburguesa
+    *  así como la declaración de los fragments que usamos. */
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityPantallaPBinding binding;
     private TextView nombreM;
@@ -28,6 +36,10 @@ public class pantalla_p extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         binding = ActivityPantallaPBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Drawable d = new BitmapDrawable(getResources(), Persona.getFotoP());
+        toolbar.setOverflowIcon(d);
+
 
         setSupportActionBar(binding.appBarPantallaP.toolbar);
         DrawerLayout drawer = binding.drawerLayout;
@@ -51,6 +63,7 @@ public class pantalla_p extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.pantalla_p, menu);
+
         return true;
     }
 
