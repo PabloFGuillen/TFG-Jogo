@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFAFA"
+    tools:context=".Editar_Perfil">
+
+    <include
+        android:id="@+id/include"
+        layout="@layout/header_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <ImageView
+        android:id="@+id/fotoCP"
+        android:layout_width="104dp"
+        android:layout_height="98dp"
+        android:layout_below="@+id/include"
+        android:layout_marginTop="0dp"
+        android:elevation="4dp"
+        android:paddingLeft="10dp"
+        android:src="@drawable/usuario"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/include"
+        app:layout_constraintVertical_bias="0.00999999" />
+
+    <EditText
+        android:id="@+id/NNombreUsuario"
+        android:layout_width="272dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/include"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="27dp"
+        android:layout_toEndOf="@+id/fotoCP"
+        android:ems="10"
+        android:hint="Nombre usuario"
+        android:inputType="textPersonName" />
+
+    <EditText
+        android:id="@+id/NNombreUsuario2"
+        android:layout_width="392dp"
+        android:layout_height="392dp"
+        android:layout_below="@+id/fotoCP"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="11dp"
+        android:ems="10"
+        android:hint="Descripcion"
+        android:inputType="textPersonName" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/NNombreUsuario2"
+        android:layout_alignStart="@+id/NNombreUsuario2"
+        android:layout_marginStart="285dp"
+        android:layout_marginTop="31dp"
+        android:backgroundTint="#9AF872"
+        android:text="GUARDAR" />
+
+</RelativeLayout>

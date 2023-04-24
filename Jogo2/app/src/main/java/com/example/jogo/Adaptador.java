@@ -1,7 +1,10 @@
 package com.example.jogo;
 
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Context;
-import android.content.Intent;
+import android.net.Uri;
+import android.provider.CalendarContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,12 +17,11 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
+import androidx.cardview.widget.CardView;
 
-import java.sql.SQLException;
 import java.util.List;
 import java.util.StringTokenizer;
+import java.util.TimeZone;
 
 public class Adaptador extends ArrayAdapter<Evento> {
     private Context ctx;
@@ -48,7 +50,8 @@ public class Adaptador extends ArrayAdapter<Evento> {
         ImageView qr = (ImageView) v.findViewById(R.id.qrDE2);
         TextView disponibles = (TextView) v.findViewById(R.id.disponibles);
         ImageView fotoU = (ImageView) v.findViewById(R.id.imageView7);
-
+        Button cancelar = (Button) v.findViewById(R.id.cancelarEE);
+        Button asistir = (Button) v.findViewById(R.id.Asistir);
         // Lo que hacemos es mostrar el nombre de usuario, evento, localidad, dia, hora así como nombre y qr
         fotoU.setImageBitmap(evento.getFotoU());
         RelativeLayout layout = (RelativeLayout) v.findViewById(R.id.layout);
@@ -93,7 +96,21 @@ public class Adaptador extends ArrayAdapter<Evento> {
 
             }
         });
-        Button asistir = (Button) v.findViewById(R.id.Asistir);
+        cancelar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try{
+                    Conector con = new Conector();
+                    con.canceleraE(evento.getId(), Persona.getNombreU());
+                    Toast.makeText(getContext(), "Asistencia Cancelada", Toast.LENGTH_LONG).show();
+                    asistir.setVisibility(View.VISIBLE);
+                    cancelar.setVisibility(View.GONE);
+                }catch(Exception e){
+
+                }
+            }
+        });
+
         asistir.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
@@ -101,6 +118,19 @@ public class Adaptador extends ArrayAdapter<Evento> {
                     Conector con = new Conector();
                     con.asistirEvento(Persona.getNombreU(), evento.getId());
                     Toast.makeText(getContext(), "Asistencia Confirmada", Toast.LENGTH_LONG).show();
+                    cancelar.setVisibility(View.VISIBLE);
+                    asistir.setVisibility(View.GONE);
+                    ContentValues event = new ContentValues();
+                    event.put(CalendarContract.Events.TITLE, "Mi evento");
+                    event.put(CalendarContract.Events.DESCRIPTION, "Descripción del evento");
+                    event.put(CalendarContract.Events.EVENT_LOCATION, "Ubicación del evento");
+                    event.put(CalendarContract.Events.CALENDAR_ID, 1); // ID del calendario a utilizar
+                    event.put(CalendarContract.Events.DTSTART, evento.getDia().toString()); // fecha y hora de inicio en formato milisegundos
+                    event.put(CalendarContract.Events.EVENT_TIMEZONE, TimeZone.getDefault().getID());
+
+                    ContentResolver cr = getContext().getContentResolver();
+                    Uri uri = cr.insert(CalendarContract.Events.CONTENT_URI, event);
+                    long eventID = Long.parseLong(uri.getLastPathSegment());
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

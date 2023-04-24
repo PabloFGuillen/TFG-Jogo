@@ -7,8 +7,15 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
+import com.example.jogo.Adaptador;
+import com.example.jogo.Conector;
+import com.example.jogo.Evento;
+import com.example.jogo.Persona;
 import com.example.jogo.R;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -62,6 +69,21 @@ public class AsistenciaF extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_asistencia, container, false);
+        View view = inflater.inflate(R.layout.fragment_asistencia, container, false);
+        ListView listView = (ListView) view.findViewById(R.id.listviewA);
+
+        try{
+            Conector con = new Conector();
+            ArrayList<Evento> eventos = con.asistencias(Persona.getNombreU());
+            Adaptador adaptadorEjemplo = new Adaptador(
+                    getContext(),
+                    R.layout.evento_item,
+                    eventos
+            );
+            listView.setAdapter(adaptadorEjemplo);
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+        }
+        return view;
     }
 }

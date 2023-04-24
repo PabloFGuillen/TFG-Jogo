@@ -1,5 +1,7 @@
 package com.example.jogo.ui;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -7,23 +9,31 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.jogo.Conector;
+import com.example.jogo.Editar_Perfil;
+import com.example.jogo.Evento;
+import com.example.jogo.MiAdaptadorEventos;
 import com.example.jogo.Persona;
 import com.example.jogo.R;
 
-import org.w3c.dom.Text;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link PerfilF#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class PerfilF extends Fragment {
-    /* Fragment que tiene la información del perfil del usuario. Muestra el nombre de usuario y demas información como
-    evento creados.
-     */
+public class PerfilF extends Fragment implements AdapterView.OnItemClickListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -33,6 +43,10 @@ public class PerfilF extends Fragment {
     private String mParam1;
     private String mParam2;
     private Button button;
+    private ListView listView;
+    private List<String> lista;
+    private TextView textViewNumEventos;
+
     public PerfilF() {
     }
 
@@ -68,27 +82,76 @@ public class PerfilF extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
-
+    private List<Evento> lista_eventos;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_perfil,
                 container, false);
-        Button button = (Button) view.findViewById(R.id.button);
-        TextView nombre = (TextView) view.findViewById(R.id.usuarioP);
+        listView = (ListView) view.findViewById(R.id.ListViewMisEventos);
+        Button editar = view.findViewById(R.id.button);
+        Conector con;
+        try {
+            con = new Conector();
+
+            textViewNumEventos = (TextView) view.findViewById(R.id.textViewEventos);
+            textViewNumEventos.setText(con.getEventos().size()+"");
+            lista_eventos = con.getEventos();
+            MiAdaptadorEventos adaptadorEventos = new MiAdaptadorEventos(getActivity(), R.layout.evento_item2, lista_eventos);
+            listView.setAdapter(adaptadorEventos);
+            listView = (ListView)view.findViewById(R.id.ListViewMisEventos);
+
+        } catch(Exception e){
+
+        }
+
+        editar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent t = new Intent(getContext(), Editar_Perfil.class);
+                startActivity(t);
+            }
+        });
+
+
+
+
+      /*  Button salirButton = (Button) view.findViewById(R.id.salir);
+        TextView nombre = (TextView) view.findViewById(R.id.textViewUsuario);
         Persona persona = new Persona();
         nombre.setText(persona.getNombreU());
-        button.setOnClickListener(new View.OnClickListener()
+        ImageView fotoPerfil =  (ImageView) view.findViewById(R.id.imageViewPerfil);
+
+        fotoPerfil.setImageBitmap(persona.getFotoP());
+        salirButton.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v)
             {
+                /*
+                * El boton de salir no debe ser para salir de la propia app, sino para salir de la cuenta (deslogearte).
+                *
+                * ====== PROPUESTA DE FUNCIONALIDAD =====
+                * Este debería de permitirte deslogearte (como se ha mencionado anteriormente) y llevarte a la pantalla de logging
+                *
+                *
+                *       ---> Uso de un intent para llevarte a MainActivity.class
+                *       ---> Borrado previo de los datos en el fichero XML para que no se vuelva a iniciar sesión automaticamente
+                *
+                * *//*
                 System.exit(0);
             }
-        });
+        });*/
         return view;
     }
+
+
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+        Toast.makeText(getActivity(), "El ejemplo seleccionado es:"+lista.get(i), Toast.LENGTH_LONG).show();
+    }
+
 
 
 }

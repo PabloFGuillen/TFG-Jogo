@@ -8,55 +8,63 @@
     android:backgroundTint="#FCF2F2"
     tools:context=".Login">
 
-    <include layout="@layout/header_layout" />
+    <include
+        android:id="@+id/include"
+        layout="@layout/header_layout" />
 
-    <ImageView
-        android:id="@+id/rectangulo"
-        android:layout_width="330dp"
-        android:layout_height="311dp"
+    <androidx.cardview.widget.CardView
+        android:layout_width="319dp"
+        android:layout_height="281dp"
+        app:cardElevation="2dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.374"
-        app:srcCompat="@drawable/rectangulo" />
+        app:layout_constraintVertical_bias="0.36">
 
-    <EditText
-        android:id="@+id/nombre"
-        android:layout_width="277dp"
-        android:layout_height="43dp"
-        android:background="#EEEEEE"
-        android:ems="10"
-        android:gravity="fill_horizontal|fill_vertical"
-        android:hint="Nombre de usuario"
-        android:inputType="textPersonName"
-        android:paddingLeft="6dp"
-        android:textColor="#877F7F"
-        android:textColorHint="#877F7F"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.287" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#FFFFFF">
 
-    <EditText
-        android:id="@+id/contraseña"
-        android:layout_width="279dp"
-        android:layout_height="45dp"
-        android:background="#EEEEEE"
-        android:backgroundTint="#EEEEEE"
-        android:ems="10"
-        android:hint="Contraseña"
-        android:inputType="textPassword"
-        android:paddingLeft="6dp"
-        android:textColor="#877F7F"
-        android:textColorHint="#877F7F"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.492"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.405" />
+            <EditText
+                android:id="@+id/nombre"
+                android:layout_width="277dp"
+                android:layout_height="43dp"
+                android:background="#EEEEEE"
+                android:ems="10"
+                android:gravity="fill_horizontal|fill_vertical"
+                android:hint="Nombre de usuario"
+                android:inputType="textPersonName"
+                android:paddingLeft="6dp"
+                android:textColor="#877F7F"
+                android:textColorHint="#877F7F"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.38"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.184" />
+
+            <EditText
+                android:id="@+id/contraseña"
+                android:layout_width="279dp"
+                android:layout_height="45dp"
+                android:background="#EEEEEE"
+                android:backgroundTint="#EEEEEE"
+                android:ems="10"
+                android:hint="Contraseña"
+                android:inputType="textPassword"
+                android:paddingLeft="6dp"
+                android:textColor="#877F7F"
+                android:textColorHint="#877F7F"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
 
     <Button
         android:id="@+id/inicioS"
@@ -64,6 +72,7 @@
         android:layout_height="44dp"
         android:backgroundTint="#BEF8C4"
         android:onClick="inicioS"
+        android:shadowColor="#494949"
         android:text="INICIAR SESIÓN"
         android:textColor="#3CE500"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -79,6 +88,7 @@
         android:layout_height="41dp"
         android:backgroundTint="#AAC8D6"
         android:onClick="registrarse"
+        android:shadowColor="#1C1B1B"
         android:text="Registrarse"
         android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -18,14 +18,10 @@
         android:id="@+id/eventoF"
         android:name="com.example.jogo.ui.EventoF"
         android:label="fragment_evento"
-        tools:layout="@layout/fragment_evento" >
-        <action
-            android:id="@+id/action_eventoF_to_detalles_Evento"
-            app:destination="@id/detalles_Evento" />
-    </fragment>
+        tools:layout="@layout/fragment_evento" />
     <activity
-        android:id="@+id/detalles_Evento"
-        android:name="com.example.jogo.Detalles_Evento"
-        android:label="activity_detalles_evento"
-        tools:layout="@layout/activity_detalles_evento" />
+        android:id="@+id/perfil_Usuario2"
+        android:name="com.example.jogo.Perfil_Usuario"
+        android:label="activity_perfil_usuario"
+        tools:layout="@layout/activity_perfil_usuario" />
 </navigation>

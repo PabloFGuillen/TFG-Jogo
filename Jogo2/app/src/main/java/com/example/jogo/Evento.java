@@ -175,4 +175,10 @@ public class Evento {
     public Evento(){
 
     }
+
+    public String getUbicacion(){
+        return this.calle+", "+this.localidad+", "+this.ciudad;
+    }
+
+
 }

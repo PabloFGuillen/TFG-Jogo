@@ -3,6 +3,7 @@ package com.example.jogo;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Xml;
@@ -32,6 +33,7 @@ public class Login extends AppCompatActivity {
     /*Pantalla del login. Aqui o bien iinciamos sesión o bien nos dirigimos a la pantalla de registro. En cas de iniciar
     * sesión, lo que hacemoso es crear el fichero XML donde guardaremos la información de nombre de usuario y contraseña*/
     public EditText usuario, contraseña;
+    private ProgressDialog progressDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -41,31 +43,43 @@ public class Login extends AppCompatActivity {
         actionBar.hide();
         usuario = (EditText) findViewById(R.id.nombre);
         contraseña = (EditText) findViewById(R.id.contraseña);
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Realizando operación, por favor espere...");
+        progressDialog.setCancelable(false);
     }
+    public void activar(){
 
+        progressDialog.show();
+    }
     // Funcion que se ejecuta al pulsar sobre el bóton de iniciar sesion
     public void inicioS(View view){
+        progressDialog.show();
         String nUsuario = usuario.getText().toString();
         String password = contraseña.getText().toString();
         // Recogemos el nombre de usuario y la contraseña.
         if(nUsuario.equals("") == false && contraseña.equals("")==false) {
             try {
                 // Comprobamos si el nombre de usuario existe
+
                 Conector con = new Conector();
                 boolean encontrado = con.login(nUsuario, password);
                 boolean validado = false;
                 if (encontrado == false) {
+                    progressDialog.dismiss();
                     Toast.makeText(Login.this, "Nombre de usuario o contraseña incorrectos", Toast.LENGTH_LONG).show();
                 } else {
                     // Comprobamos si la cuenta de la aplicación a sido validada por medio del correo electrónico.
+
                     validado = con.validad(nUsuario, password);
                     if(validado == true){
                         Intent c = new Intent(Login.this, pantalla_p.class);
+                        progressDialog.dismiss();
                         nUsuario = nUsuario.replaceAll(" ", "_");
                         startActivity(c);
                     }
                     else{
                         // Si no ha sido validada, se informa al usuario
+                        progressDialog.dismiss();
                         Toast.makeText(Login.this, "Valida tu cuenta de Jogo. Comprueba tu correo.", Toast.LENGTH_LONG).show();
                     }
                 }
@@ -76,6 +90,7 @@ public class Login extends AppCompatActivity {
         }
         else{
             // Si no se ha introducido nombre de usuario y contraseña, se pide al usuario que lo introduzca
+            progressDialog.dismiss();
             Toast.makeText(this, "Por favor, introduzca usuario y contraseña", Toast.LENGTH_LONG).show();
         }
     }

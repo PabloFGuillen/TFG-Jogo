@@ -3,25 +3,36 @@ package com.example.jogo.ui;
 
 import android.Manifest;
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.location.Location;
+import android.location.LocationManager;
+import android.media.Image;
 import android.os.Build;
 import android.os.Bundle;
 
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
+import android.transition.Fade;
+import android.transition.Transition;
+import android.view.KeyCharacterMap;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -38,6 +49,7 @@ import com.example.jogo.DatePickerFragment;
 import com.example.jogo.Evento;
 import com.example.jogo.Persona;
 import com.example.jogo.R;
+import com.example.jogo.fragmento_busqueda;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -46,6 +58,8 @@ import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
 
+
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.sql.Date;
@@ -53,6 +67,7 @@ import java.sql.SQLException;
 import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -78,6 +93,7 @@ public class EventoF extends Fragment {
     double longitud, latitud;
     private ListView listView;
     private List<Evento> lista;
+    private Transition mFadeTransition = new Fade();
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -85,6 +101,7 @@ public class EventoF extends Fragment {
     // TODO: Rename and change types and number of parameters
     public static EventoF newInstance(String param1, String param2) {
         EventoF fragment = new EventoF();
+
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -113,6 +130,8 @@ public class EventoF extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_evento,
                 container, false);
+        Transition mFadeTransition = new Fade();
+
         //Tenemos 3 hilos distintos para aminorar la carga de trabajo del hilo principañ
 
         //Primer hilo
@@ -157,6 +176,11 @@ public class EventoF extends Fragment {
                 .runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                ProgressDialog progressDialog = new ProgressDialog(getContext());
+                progressDialog.setMessage("Cargando");
+                progressDialog.setCancelable(false);
+                progressDialog.show();
+
                 // FORMULARIO CREAR EVENTO
                 ImageView fotoPerfil = (ImageView) view.findViewById(R.id.fotoCE);
                 EditText nombreE = (EditText) view.findViewById(R.id.nombreE);
@@ -193,19 +217,25 @@ public class EventoF extends Fragment {
                     }
                     hora.setText(String.valueOf(LocalDateTime.now().getHour()) + ":" + minuto);
                 }
-
+                progressDialog.dismiss();
                 // Menú para escoger fecha
                 TextView etPlannedDate = (TextView) view.findViewById(R.id.fechaE);
-                etPlannedDate.setOnClickListener(new View.OnClickListener() {
+                new Thread(new Runnable() {
                     @Override
-                    public void onClick(View view) {
-                        switch (view.getId()) {
-                            case R.id.fechaE:
-                                showDatePickerDialog();
-                                break;
-                        }
+                    public void run() {
+                        etPlannedDate.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                switch (view.getId()) {
+                                    case R.id.fechaE:
+                                        showDatePickerDialog();
+                                        break;
+                                }
+                            }
+                        });
                     }
-                });
+                }).start();
+
 
                 // Menú para escoger hora.
                 hora.setOnClickListener(new View.OnClickListener() {
@@ -228,65 +258,81 @@ public class EventoF extends Fragment {
 
                 // Botón para crear el evento.
                 Button crearE = (Button) view.findViewById(R.id.crearE);
-                crearE.setOnClickListener(new View.OnClickListener() {
+                new Thread(new Runnable() {
                     @Override
-                    public void onClick(View v) {
-                        // Nos aseguramos de que todos los campos estan rellenos
-                        if (nombreE.getText().toString().equals("") == false && calleE.getText().toString().equals("") == false && localidadE.getText().toString().equals("") == false && comunidad.getText().toString().equals("") == false && descripcionE.getText().toString().equals("") == false) {
-                            // Nos aseguramos de que la ubicación escrita existe.
-                            ComprobacionNominatum comprobacionNominatum = new ComprobacionNominatum(calleE.getText().toString(), localidadE.getText().toString());
-                            boolean comprobacion = false;
-
-                            try {
-                                //Si existe, registramos todo en la base datos
-                                comprobacion = comprobacionNominatum.comprobar();
-                                if (comprobacion == true) {
+                    public void run() {
+                        // Aquí se realiza la tarea que se quiere ejecutar en segundo plano
+                        // Esta tarea no puede interactuar directamente con la interfaz de usuario
+                        crearE.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                // Nos aseguramos de que todos los campos estan rellenos
+                                if (nombreE.getText().toString().equals("") == false && calleE.getText().toString().equals("") == false && localidadE.getText().toString().equals("") == false && comunidad.getText().toString().equals("") == false && descripcionE.getText().toString().equals("") == false) {
+                                    // Nos aseguramos de que la ubicación escrita existe.
+                                    ComprobacionNominatum comprobacionNominatum = new ComprobacionNominatum(calleE.getText().toString(), localidadE.getText().toString());
+                                    boolean comprobacion = false;
                                     try {
-                                        // Aquí pasamos a los atributos Time y Date propios de SQL para poder guardarlos en la base de datos
-                                        Time horas = java.sql.Time.valueOf(hora.getText().toString() + ":00");
-                                        Date fechas = java.sql.Date.valueOf(fechaSQL);
-                                        Conector con = new Conector();
-                                        double[] coordenadas = comprobacionNominatum.latitudL(localidadE.getText().toString());
-                                        //Esto genera el código QR
-                                        BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
+                                        //Si existe, registramos todo en la base datos
 
-                                        // StringTokenizer con separación '|'
-                                        Bitmap qr = barcodeEncoder.encodeBitmap(localidadE.getText().toString() + "|" + calleE.getText().toString() + "|" + comunidad.getText().toString() + "|" + horas + "|" + fechas + "|" + nombreE.getText().toString() + "|" + descripcionE.getText().toString() + "|" + Integer.parseInt(plazasE.getText().toString()) + "|" + Persona.getNombreU()+"|"+String.valueOf(coordenadas[0])+"|"+String.valueOf(coordenadas[1]), BarcodeFormat.QR_CODE, 400, 400);
+                                        comprobacion = comprobacionNominatum.comprobar();
+                                        if (comprobacion == true) {
+                                            try {
+                                                // Aquí pasamos a los atributos Time y Date propios de SQL para poder guardarlos en la base de datos
+                                                Time horas = Time.valueOf(hora.getText().toString() + ":00");
+                                                Date fechas = Date.valueOf(fechaSQL);
+                                                LocalDate fecha = null;
+                                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                                    fecha = LocalDate.parse(fechaSQL);
+                                                    if(fecha.isBefore(LocalDate.now())){
+                                                        Toast.makeText(getContext(), "", Toast.LENGTH_LONG).show();
+                                                    }
+                                                    else{
+                                                        Conector con = new Conector();
+                                                        double[] coordenadas = comprobacionNominatum.latitudL(localidadE.getText().toString());
+                                                        //Esto genera el código QR
+                                                        BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
 
-                                        //Pasamos de bitmap a longblob
-                                        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-                                        qr.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
-                                        byte[] byteQR = byteArrayOutputStream.toByteArray();
+                                                        // StringTokenizer con separación '|'
+                                                        Bitmap qr = barcodeEncoder.encodeBitmap("http://localhost/Jogo/Link-evento.php?idEvento="+con.ultimoID(), BarcodeFormat.QR_CODE, 400, 400);
 
-                                        //Insertamos toda la información en la base de datos.
-                                        con.crearEvento(localidadE.getText().toString(), calleE.getText().toString(), comunidad.getText().toString(), horas, fechas, nombreE.getText().toString(), descripcionE.getText().toString(), Integer.parseInt(plazasE.getText().toString()), Persona.getNombreU(), byteQR, coordenadas[0], coordenadas[1]);
-                                        Toast.makeText(getContext(), "Evento Creado Correctamente", Toast.LENGTH_LONG).show();
-                                        localidadE.setText("");
-                                        calleE.setText("");
-                                        comunidad.setText("");
-                                        plazasE.setText("");
-                                        descripcionE.setText("");
+                                                        //Pasamos de bitmap a longblob
+                                                        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                                                        qr.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+                                                        byte[] byteQR = byteArrayOutputStream.toByteArray();
+
+                                                        //Insertamos toda la información en la base de datos.
+                                                        con.crearEvento(localidadE.getText().toString(), calleE.getText().toString(), comunidad.getText().toString(), horas, fechas, nombreE.getText().toString(), descripcionE.getText().toString(), Integer.parseInt(plazasE.getText().toString()), Persona.getNombreU(), byteQR, coordenadas[0], coordenadas[1]);
+                                                        Toast.makeText(getContext(), "Evento Creado Correctamente", Toast.LENGTH_LONG).show();
+                                                        localidadE.setText("");
+                                                        calleE.setText("");
+                                                        comunidad.setText("");
+                                                        plazasE.setText("");
+                                                        descripcionE.setText("");
+                                                    }
+                                                }
 
 
-                                    } catch (Exception e) {
-                                        System.out.println(e.getMessage());
+                                            } catch (Exception e) {
+                                                System.out.println(e.getMessage());
+                                            }
+                                        }
+                                        // En caso contrario, decimos que dicha ubicación no exiset
+                                        else {
+                                            Toast.makeText(getContext(), "La ubicación no existe", Toast.LENGTH_LONG).show();
+                                        }
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
                                     }
-                                }
-                                // En caso contrario, decimos que dicha ubicación no exiset
-                                else {
-                                    Toast.makeText(getContext(), "La ubicación no existe", Toast.LENGTH_LONG).show();
-                                }
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
 
-                        }
-                        // Si no se han rellenado todos los campos obligatorios, pedimos por pantalla que los rellenes
-                        else {
-                            Toast.makeText(getContext(), "Por favor, rellene los campos obligatorios", Toast.LENGTH_LONG).show();
-                        }
+                                }
+                                // Si no se han rellenado todos los campos obligatorios, pedimos por pantalla que los rellenes
+                                else {
+                                    Toast.makeText(getContext(), "Por favor, rellene los campos obligatorios", Toast.LENGTH_LONG).show();
+                                }
+                            }
+                        });
                     }
-                });
+                }).start();
             }
         });
         getActivity()
@@ -296,32 +342,33 @@ public class EventoF extends Fragment {
                 // TAB DE EVENTOS EN TU ZONA
 
                 // Inicializamos variables
+                ProgressDialog progressDialog = new ProgressDialog(getContext());
+                progressDialog.setMessage("Cargando Eventos");
+                progressDialog.setCancelable(false);
+
                 TextView ubicacion = (TextView) view.findViewById(R.id.km);
                 SeekBar distancia = (SeekBar) view.findViewById(R.id.distancia);
                 ubicacion.setText(String.valueOf(distancia.getProgress()));
                 ImageButton escaner = (ImageButton) view.findViewById(R.id.escaner);
+
                 listView = (ListView) view.findViewById(R.id.Listview);
+                Button actualizar = (Button) view.findViewById(R.id.actualizar);
+
 
                 // Esta funcion muestra eventos según la distancia de radio especificada.
                 GPS(view, distancia.getProgress());
 
-                // Aquí hacemos tareas dependiendo de la barra.
-                distancia.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-                    @Override
-                    public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                        ubicacion.setText(String.valueOf(distancia.getProgress()));
-                    }
+                progressDialog.dismiss();
 
+                actualizar.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onStartTrackingTouch(SeekBar seekBar) {
-
-                    }
-
-                    @Override
-                    public void onStopTrackingTouch(SeekBar seekBar) {
+                    public void onClick(View view) {
+                        progressDialog.show();
                         GPS(view, distancia.getProgress());
+                        progressDialog.dismiss();
                     }
                 });
+
                 escaner.setOnClickListener(new View.OnClickListener(){
 
                     @Override
@@ -329,6 +376,65 @@ public class EventoF extends Fragment {
                         new IntentIntegrator(getActivity()).initiateScan();
                     }
                 });
+                // Aquí hacemos tareas dependiendo de la barra.
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        EditText buscar = (EditText) view.findViewById(R.id.buscar);
+                        FrameLayout frameF = (FrameLayout) view.findViewById(R.id.frameF);
+                        ImageView volver = (ImageView) view.findViewById(R.id.volver);
+                        volver.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                frameF.setVisibility(View.GONE);
+                                volver.setVisibility(View.GONE);
+                                listView.setVisibility(View.VISIBLE);
+                            }
+                        });
+                        buscar.setOnKeyListener(new View.OnKeyListener() {
+                            @Override
+                            public boolean onKey(View view, int i, KeyEvent keyEvent) {
+                                if((keyEvent.getAction() == KeyEvent.ACTION_DOWN)){
+                                    FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                                    fragmento_busqueda busqueda = new fragmento_busqueda();
+                                    busqueda.setBusqueda(buscar.getText().toString());
+                                    busqueda.setDistancia(distancia.getProgress());
+                                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                                    fragmentTransaction.replace(R.id.frameF, busqueda);
+                                    fragmentTransaction.commit();
+                                    frameF.setVisibility(View.VISIBLE);
+                                    volver.setVisibility(View.VISIBLE);
+                                    listView.setVisibility(View.GONE);
+                                    KeyCharacterMap keyCharacterMap = KeyCharacterMap.load(KeyCharacterMap.VIRTUAL_KEYBOARD);
+                                    char character = (char) keyCharacterMap.get(i, 0);
+                                    String c = String.valueOf(character);
+                                    Toast.makeText(getContext(), String.valueOf(i), Toast.LENGTH_SHORT).show();
+                                }
+                                return false;
+                            }
+                        });
+
+                        distancia.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                            @Override
+                            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                                ubicacion.setText(String.valueOf(distancia.getProgress()));
+                            }
+
+                            @Override
+                            public void onStartTrackingTouch(SeekBar seekBar) {
+
+                            }
+
+                            @Override
+                            public void onStopTrackingTouch(SeekBar seekBar) {
+                                progressDialog.show();
+                                GPS(view, distancia.getProgress());
+                                progressDialog.dismiss();
+                            }
+                        });
+                    }
+                }).start();
             }
         });
 
@@ -355,10 +461,14 @@ public class EventoF extends Fragment {
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
         String datos = result.getContents();
         //Aqui lanzamos a un activity pa mostar el evento escaneado.
-        StringTokenizer token = new StringTokenizer(datos, "|");
-        Evento evento = new Evento();
-
-
+        try {
+            Conector con = new Conector();
+            con.qrEvento(Integer.parseInt(datos));
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public void GPS(View view, int distancia){
@@ -380,30 +490,39 @@ public class EventoF extends Fragment {
         }
 
         // Aquí recogemos altitud y latitud.
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(getContext());
-        fusedLocationClient.getLastLocation()
-                .addOnSuccessListener(getActivity(), new OnSuccessListener<Location>() {
-                    @Override
-                    public void onSuccess(Location location) {
-                        try {
-                            latitud = location.getLatitude();
-                            longitud = location.getLongitude();
-                            Conector con = new Conector();
-                            // Recogemos eventos en un arraylist segund la distancia max, la latitud y la longitud.
-                            lista = con.eventos(distancia, latitud, longitud);
-                            Adaptador adaptadorEjemplo = new Adaptador(
-                                    getContext(),
-                                    R.layout.evento_item,
-                                    lista
-                            );
-                            listView.setAdapter(adaptadorEjemplo);
-                        } catch (ClassNotFoundException e) {
-                            e.printStackTrace();
-                        } catch (SQLException e) {
-                            e.printStackTrace();
-                        }
+        LocationManager locationManager = (LocationManager) getContext().getSystemService(Context.LOCATION_SERVICE);
+        boolean isGpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
 
+        if(isGpsEnabled == false){
+            GPS(view, distancia);
+            Toast.makeText(getContext(), "Activa el GPS para buscar eventos.", Toast.LENGTH_SHORT).show();
+        }
+        else
+        {
+            fusedLocationClient = LocationServices.getFusedLocationProviderClient(getContext());
+            fusedLocationClient.getLastLocation()
+            .addOnSuccessListener(getActivity(), new OnSuccessListener<Location>() {
+                @Override
+                public void onSuccess(Location location) {
+                    try {
+                        latitud = location.getLatitude();
+                        longitud = location.getLongitude();
+                        Conector con = new Conector();
+                        // Recogemos eventos en un arraylist segund la distancia max, la latitud y la longitud.
+                        lista = con.eventos(distancia, latitud, longitud);
+                        Adaptador adaptadorEjemplo = new Adaptador(
+                                getContext(),
+                                R.layout.evento_item,
+                                lista
+                        );
+                        listView.setAdapter(adaptadorEjemplo);
+                    } catch (ClassNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (SQLException e) {
+                        e.printStackTrace();
                     }
-                });
+                }
+            });
+        }
     }
 }

@@ -37,35 +37,60 @@
                     android:id="@+id/eventoF"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="#FDF0DB">
+                    android:background="#FFE8C7">
 
-                    <ListView
-                        android:id="@+id/Listview"
-                        android:layout_width="412dp"
-                        android:layout_height="591dp"
-                        android:background="#FFFEFE"
-                        android:paddingBottom="3dp"
+                    <Button
+                        android:id="@+id/actualizar"
+                        android:layout_width="60dp"
+                        android:layout_height="70dp"
+                        android:backgroundTint="#FFC269"
+                        app:circularflow_defaultRadius="10dp"
+                        app:cornerRadius="70dp"
+                        app:icon="@android:drawable/stat_notify_sync"
+                        app:iconSize="31dp"
+                        app:iconTint="#FF9800"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.93"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.93" />
+
+                    <FrameLayout
+                        android:id="@+id/frameF"
+                        android:layout_width="410dp"
+                        android:layout_height="627dp"
+                        android:background="#FFFFFF"
+                        android:visibility="visible"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="1.0" />
+                        app:layout_constraintTop_toTopOf="parent">
 
-                    <ImageView
-                        android:id="@+id/imageView6"
-                        android:layout_width="409dp"
-                        android:layout_height="54dp"
-                        android:src="@drawable/rectangulon"
+                    </FrameLayout>
+
+                    <ListView
+                        android:id="@+id/Listview"
+                        android:layout_width="410dp"
+                        android:layout_height="627dp"
+                        android:background="#FCF2F2"
+                        android:divider="#FCF2F2"
+                        android:dividerHeight="15dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.53">
+
+                    </ListView>
 
                     <EditText
-                        android:id="@+id/editTextTextPersonName"
+                        android:id="@+id/buscar"
                         android:layout_width="211dp"
                         android:layout_height="36dp"
                         android:background="#F6F6F6"
+                        android:elevation="4dp"
                         android:ems="10"
                         android:hint="Buscar"
                         android:inputType="textPersonName"
@@ -80,12 +105,14 @@
 
                     <ImageButton
                         android:id="@+id/escaner"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="59dp"
+                        android:layout_height="45dp"
+                        android:elevation="4dp"
                         android:src="@android:drawable/ic_menu_camera"
+                        android:visibility="visible"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.09"
+                        app:layout_constraintHorizontal_bias="0.92"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintVertical_bias="0.002" />
@@ -94,28 +121,67 @@
                         android:id="@+id/distancia"
                         android:layout_width="323dp"
                         android:layout_height="26dp"
+                        android:elevation="3dp"
                         android:max="100"
                         android:progress="1"
                         android:progressBackgroundTint="#FF630D"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.011"
+                        app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="0.081" />
+                        app:layout_constraintVertical_bias="0.99" />
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cardView2"
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:background="#FFE8C7"
+                        android:backgroundTint="#FFE8C7"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="1.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.996" />
 
                     <TextView
                         android:id="@+id/km"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:elevation="3dp"
                         android:text="TextView"
                         android:textColor="#1B1B1B"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.954"
+                        app:layout_constraintHorizontal_bias="0.91"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="0.07999998" />
+                        app:layout_constraintVertical_bias="0.98" />
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cardView"
+                        android:layout_width="413dp"
+                        android:layout_height="45dp"
+                        android:background="#FBDCB7"
+                        android:backgroundTint="#FBDCB7"
+                        android:elevation="4dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.555"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.001">
+
+                        <ImageView
+                            android:id="@+id/volver"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="16dp"
+                            android:paddingLeft="8dp"
+                            android:src="@android:drawable/ic_menu_revert"
+                            android:visibility="gone" />
+                    </androidx.cardview.widget.CardView>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 

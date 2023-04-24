@@ -36,9 +36,11 @@ public class pantalla_p extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         binding = ActivityPantallaPBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         Drawable d = new BitmapDrawable(getResources(), Persona.getFotoP());
         toolbar.setOverflowIcon(d);
+
 
 
         setSupportActionBar(binding.appBarPantallaP.toolbar);
@@ -51,7 +53,7 @@ public class pantalla_p extends AppCompatActivity {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.eventoF, R.id.perfilF, R.id.asistenciaF, R.id.detalles_Evento)
+                R.id.eventoF, R.id.perfilF, R.id.asistenciaF, R.id.perfil_Usuario2)
                 .setOpenableLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_pantalla_p);
