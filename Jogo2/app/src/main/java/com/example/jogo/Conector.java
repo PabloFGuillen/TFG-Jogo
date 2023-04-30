@@ -1,11 +1,14 @@
 package com.example.jogo;
 
+import android.content.Context;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.StrictMode;
 import android.widget.Toast;
 
 import org.checkerframework.checker.units.qual.A;
 
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.DriverManager;
@@ -48,6 +51,7 @@ public class Conector{
         ResultSet rs = ps.executeQuery();
         if(rs.next()){
             Persona.setNombreU(rs.getString(1));
+            Persona.setContraseña(rs.getString(2));
             Persona.setCorreo(rs.getString(3));
             Persona.setFotoP(rs.getBytes(4));
             Persona.setDescripcion(rs.getString(5));
@@ -348,39 +352,40 @@ public class Conector{
 
 
     public ArrayList<Evento> getEventos(){
-        Persona persona = new Persona();
-        ArrayList<Evento> eventos = new ArrayList<Evento>();
-        String sql ="SELECT evento.nombre, evento.calle, evento.ciudad, evento.localidad, evento.dia, evento.hora, evento.descripcion, usuario.foto FROM evento INNER JOIN usuario ON (evento.nombre_usuario = usuario.nombre) WHERE (nombre_usuario = ?)";
 
 
         try{
-            PreparedStatement sentencia = con.prepareStatement(sql);
-            sentencia.setString(1, persona.getNombreU());
-            ResultSet resultSet = sentencia.executeQuery();
+            PreparedStatement ps = con.prepareStatement("SELECT event.*, jogo.usuario.foto, event.plazas - (SELECT count(*) FROM jogo.asistir_evento WHERE jogo.asistir_evento.id = event.id)  AS plazas_disponibles FROM jogo.evento  AS `event` INNER JOIN jogo.usuario ON jogo.usuario.nombre = event.nombre_usuario LEFT OUTER JOIN jogo.asistir_evento ON jogo.asistir_evento.id = event.id WHERE event.nombre_usuario = ?;");
+            ps.setString(1, Persona.getNombreU());
+            ResultSet rs = ps.executeQuery();
+            ArrayList<Evento> eventos = new ArrayList<Evento>();
+            while(rs.next()){
+                    Evento evento = new Evento();
+                    evento.setId(rs.getInt(1));
+                    evento.setCiudad(rs.getString(2));
+                    evento.setCalle(rs.getString(3));
+                    evento.setLocalidad(rs.getString(4));
+                    evento.setHora(rs.getTime(5));
+                    evento.setDia(rs.getDate(6));
+                    evento.setNombre(rs.getString(7));
+                    evento.setDescripcion(rs.getString(8));
+                    evento.setPlazas(rs.getInt(9));
+                    evento.setNombreU(rs.getString(10));
+                    evento.setQr(rs.getBytes(11));
+                    evento.setLatitud(rs.getDouble(12));
+                    evento.setLongitud(rs.getDouble(13));
+                    evento.setFotoU(rs.getBytes(14));
+                    evento.setPlazas_disponibles(rs.getInt(15));
+                    System.out.println(evento.getCalle());
+                    eventos.add(evento);
+                }
+            return eventos;
 
-
-
-            while(resultSet.next()){
-                Evento evento = new Evento();
-                evento.setNombre(resultSet.getString(1));
-                evento.setCalle(resultSet.getString(2));
-                evento.setCiudad(resultSet.getString(3));
-                evento.setLocalidad(resultSet.getString(4));
-                evento.setDia(resultSet.getDate(5));
-                evento.setHora(resultSet.getTime(6));
-                evento.setDescripcion(resultSet.getString(7));
-                evento.setFotoU(resultSet.getBytes(8));
-
-                eventos.add(evento);
-
-
-            }
-
-
-        }catch(Exception e){
-
+            } catch (SQLException ex) {
+            ex.printStackTrace();
         }
-        return eventos;
+        return null;
+
     }
 
 
@@ -442,23 +447,37 @@ public class Conector{
 
     public void cambiarNombre(String nombre){
         try{
-            PreparedStatement ps = con.prepareStatement("UPDATE FROM usuario SET usuario.nombre = ? WHERE usuario.nombre = ?");
+            PreparedStatement ps = con.prepareStatement("UPDATE FROM jogo.usuario SET jogo.usuario.nombre = ? WHERE jogo.usuario.nombre = ?");
             ps.setString(1, nombre);
             ps.setString(2, Persona.getNombreU());
             ps.executeUpdate();
+            Persona.setNombreU(nombre);
         }catch(Exception e){
-
+            System.out.println(e.getMessage());
         }
     }
 
     public void cambiarDescripcion(String descripcion){
         try{
-            PreparedStatement ps = con.prepareStatement("UPDATE FROM usuario SET usuario.descripcion = ? WHERE usuario.nombre = ?");
+            PreparedStatement ps = con.prepareStatement("UPDATE FROM jogo.usuario SET jogo.usuario.descripcion = ? WHERE jogo.usuario.nombre = ?");
             ps.setString(1, descripcion);
             ps.setString(2, Persona.getNombreU());
             ps.executeUpdate();
+            Persona.setDescripcion(descripcion);
         }catch(Exception e){
+            System.out.println(e.getMessage());
+        }
+    }
 
+    public void cambiarFoto(byte[] foto){
+        try{
+            PreparedStatement ps = con.prepareStatement("UPDATE FROM jogo.usuario SET jogo.usuario.foto = ? WHERE jogo.usuario.nombre = ?");
+            ps.setBytes(1, foto);
+            ps.setString(2, Persona.getNombreU());
+            ps.executeUpdate();
+            Persona.setFotoP(foto);
+        }catch(Exception e){
+            System.out.println(e.getMessage());
         }
     }
 

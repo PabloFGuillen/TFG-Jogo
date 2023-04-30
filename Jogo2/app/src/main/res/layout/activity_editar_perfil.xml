@@ -37,26 +37,37 @@
 
     <EditText
         android:id="@+id/NNombreUsuario"
-        android:layout_width="272dp"
-        android:layout_height="wrap_content"
+        android:layout_width="277dp"
+        android:layout_height="43dp"
         android:layout_below="@+id/include"
         android:layout_marginStart="10dp"
         android:layout_marginTop="27dp"
         android:layout_toEndOf="@+id/fotoCP"
+        android:height="100dp"
+        android:background="#050000"
+        android:backgroundTint="#EEEEEE"
         android:ems="10"
+        android:gravity="fill_vertical"
         android:hint="Nombre usuario"
-        android:inputType="textPersonName" />
+        android:inputType="textPersonName"
+        android:paddingLeft="6dp"
+        android:textColor="#000000"
+        android:textColorHint="#000000" />
 
     <EditText
         android:id="@+id/NNombreUsuario2"
-        android:layout_width="392dp"
-        android:layout_height="392dp"
+        android:layout_width="388dp"
+        android:layout_height="279dp"
         android:layout_below="@+id/fotoCP"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="11dp"
+        android:background="#EEEEEE"
+        android:backgroundTint="#EEEEEE"
         android:ems="10"
         android:hint="Descripcion"
-        android:inputType="textPersonName" />
+        android:inputType="textPersonName"
+        android:textColor="#000000"
+        android:textColorHint="#000000" />
 
     <Button
         android:id="@+id/button2"
@@ -64,8 +75,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/NNombreUsuario2"
         android:layout_alignStart="@+id/NNombreUsuario2"
-        android:layout_marginStart="285dp"
-        android:layout_marginTop="31dp"
+        android:layout_marginStart="267dp"
+        android:layout_marginTop="24dp"
         android:backgroundTint="#9AF872"
         android:text="GUARDAR" />
 

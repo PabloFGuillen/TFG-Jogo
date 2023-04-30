@@ -14,6 +14,7 @@ import androidx.annotation.Nullable;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.StringTokenizer;
 
 public class AdaptadorEvento extends ArrayAdapter<Evento> {
     private Context ctx;
@@ -73,8 +74,21 @@ public class AdaptadorEvento extends ArrayAdapter<Evento> {
             }
 
         }
+        StringTokenizer token = new StringTokenizer(eventoActual.getDia().toString(), "-");
+        String diaE, mesE, anioE;
+        anioE = token.nextToken().toString();
+        mesE = token.nextToken().toString();
+        diaE = token.nextToken().toString();
+        dia.setText(diaE + "/" + mesE + "\n" + anioE);
         dia.setText(eventoActual.getDia().toString());
-        hora.setText(eventoActual.getHora().toString());
+
+        if(eventoActual.getHora().getMinutes() < 10){
+            hora.setText(eventoActual.getHora().getHours() + ":" + "0" +eventoActual.getHora().getMinutes());
+        }
+        else{
+            hora.setText(eventoActual.getHora().getHours() + ":" +eventoActual.getHora().getMinutes());
+
+        }
         botonBorrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -12,6 +12,15 @@ public class Persona {
     private  static String descripcion;
     private static byte[] fotoP;
     private  static String correo;
+    private static String contraseña;
+
+    public static String getContraseña() {
+        return contraseña;
+    }
+
+    public static void setContraseña(String contraseña) {
+        Persona.contraseña = contraseña;
+    }
 
     public static String getNombreU() {
         return nombreU;

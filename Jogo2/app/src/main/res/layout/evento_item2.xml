@@ -1,9 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/layourP"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFFFFF">
+
+    <TextView
+        android:id="@+id/disponibles"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/descripcionEvento"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="8dp"
+        android:layout_toEndOf="@+id/imageViewUsuario"
+        android:gravity="start"
+        android:text="TextView"
+        android:textColor="#8D8D8D"
+        android:visibility="gone" />
 
     <ImageView
         android:id="@+id/imageViewQR"
@@ -92,7 +106,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/nombreEvento"
         android:layout_marginStart="29dp"
-        android:layout_marginTop="-2dp"
+        android:layout_marginTop="0dp"
         android:layout_toEndOf="@+id/imageViewUsuario"
 
         android:text="TextView"

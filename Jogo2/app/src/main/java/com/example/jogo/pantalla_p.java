@@ -39,7 +39,7 @@ public class pantalla_p extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         Drawable d = new BitmapDrawable(getResources(), Persona.getFotoP());
-        toolbar.setOverflowIcon(d);
+        toolbar.setNavigationIcon(d);
 
 
 

@@ -1,7 +1,6 @@
 package com.example.jogo.ui;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -10,9 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,8 +21,6 @@ import com.example.jogo.MiAdaptadorEventos;
 import com.example.jogo.Persona;
 import com.example.jogo.R;
 
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -91,6 +86,16 @@ public class PerfilF extends Fragment implements AdapterView.OnItemClickListener
                 container, false);
         listView = (ListView) view.findViewById(R.id.ListViewMisEventos);
         Button editar = view.findViewById(R.id.button);
+        TextView nombre = (TextView) view.findViewById(R.id.nnn);
+        Button button = (Button) view.findViewById(R.id.BSalir);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getContext().getApplicationContext().deleteDatabase("jogo");
+                System.exit(0);
+            }
+        });
+        nombre.setText(Persona.getNombreU());
         Conector con;
         try {
             con = new Conector();
@@ -114,35 +119,6 @@ public class PerfilF extends Fragment implements AdapterView.OnItemClickListener
             }
         });
 
-
-
-
-      /*  Button salirButton = (Button) view.findViewById(R.id.salir);
-        TextView nombre = (TextView) view.findViewById(R.id.textViewUsuario);
-        Persona persona = new Persona();
-        nombre.setText(persona.getNombreU());
-        ImageView fotoPerfil =  (ImageView) view.findViewById(R.id.imageViewPerfil);
-
-        fotoPerfil.setImageBitmap(persona.getFotoP());
-        salirButton.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                /*
-                * El boton de salir no debe ser para salir de la propia app, sino para salir de la cuenta (deslogearte).
-                *
-                * ====== PROPUESTA DE FUNCIONALIDAD =====
-                * Este debería de permitirte deslogearte (como se ha mencionado anteriormente) y llevarte a la pantalla de logging
-                *
-                *
-                *       ---> Uso de un intent para llevarte a MainActivity.class
-                *       ---> Borrado previo de los datos en el fichero XML para que no se vuelva a iniciar sesión automaticamente
-                *
-                * *//*
-                System.exit(0);
-            }
-        });*/
         return view;
     }
 

@@ -48,7 +48,7 @@ public class Adaptador extends ArrayAdapter<Evento> {
         TextView hora = (TextView) v.findViewById(R.id.horaEE);
         TextView nombreU = (TextView) v.findViewById(R.id.nombreUE);
         ImageView qr = (ImageView) v.findViewById(R.id.qrDE2);
-        TextView disponibles = (TextView) v.findViewById(R.id.disponibles);
+        TextView disponibles = (TextView) v.findViewById(R.id.disponiblesEP);
         ImageView fotoU = (ImageView) v.findViewById(R.id.imageView7);
         Button cancelar = (Button) v.findViewById(R.id.cancelarEE);
         Button asistir = (Button) v.findViewById(R.id.Asistir);

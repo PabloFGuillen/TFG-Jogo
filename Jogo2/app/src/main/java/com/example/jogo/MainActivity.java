@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Xml;
@@ -19,6 +20,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
+import java.sql.SQLException;
+import java.time.LocalDate;
 
 public class MainActivity extends AppCompatActivity {
     /*Pantalla principal. Aquí comprobamos si existe un fichero que contiene en un xml la información del usuario y
@@ -30,22 +33,44 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         //Ocultamos la barra que sale con el nombre de la aplicación.
+        boolean existe = false;
+
         ActionBar actionBar = getSupportActionBar();
         actionBar.hide();
-        /* Aquí buscamos el ficheroXML en el que gaurdamos el nombre de usuario y la contraseña
-           para poder saltar directamente a la pantalla principal.*/
 
-        // Si no existe saltamos a la pantalla de logeo
-        File ficheroXML = new File(".","login.xml");
-        if(ficheroXML.exists() == false){
-            FileOutputStream fos = null;
-            try {
-                fos = new FileOutputStream(ficheroXML);
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
+        Context context = getApplicationContext();
+        String[] databases = context.databaseList();
+
+        // Buscar si la base de datos que estamos buscando existe en la lista.
+        for (String database : databases) {
+            if (database.equals("jogo")) {
+                context.getApplicationContext().deleteDatabase("jogo");
+                System.out.println(existe);
+                break;
             }
-
-                Intent t = new Intent(this, Login.class);
+        }
+        if(existe == false){
+            System.out.println("Aquí");
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    Intent t = new Intent(MainActivity.this, Login.class);
+                    startActivity(t);
+                }
+            }, 3000);
+        }
+        /* En caso de que exista, recogemos los datoss del fichero para poder iniciar sesión.*/
+        else{
+            SQLite dbHelper = new SQLite(this);
+            SQLiteDatabase db = dbHelper.getWritableDatabase();
+            dbHelper.setPersona(db);
+            try {
+                Conector con = new Conector();
+                boolean encontrado = con.validad(Persona.getNombreU(), Persona.getNombreU());
+                Intent c = new Intent(this, pantalla_p.class);
+                startActivity(c);
+            } catch (ClassNotFoundException e) {
                 Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
                     @Override
@@ -54,53 +79,12 @@ public class MainActivity extends AppCompatActivity {
                         startActivity(t);
                     }
                 }, 3000);
-        }
-        /* En caso de que exista, recogemos los datoss del fichero para poder iniciar sesión.*/
-        else{
-            try {
-                //Inicamos proceso de lectura.
-                try {
-                    Context context = getApplicationContext();
-                    FileInputStream fis = null;
-                    // Especificamos el nombre del fichero
-                    fis = context.openFileInput("login.xml");
-                    XmlPullParserFactory xmlPullParserFactory = XmlPullParserFactory.newInstance();
-                    XmlPullParser parser = xmlPullParserFactory.newPullParser();
-                    parser.setInput(fis, null);
-                    String nUsuario = "";
-                    String password = "";
-                    // Recogemos los valores
-                    int eventType = parser.getEventType();
-                    while (eventType != XmlPullParser.END_DOCUMENT) {
-                        switch (eventType) {
-                            case XmlPullParser.START_TAG:
-                                String tagname = parser.getName();
-                                // Miramos el valor de la etiqueta nombre
-                                if (tagname.equalsIgnoreCase("nombre")) {
-                                    nUsuario = parser.nextText();
-                                }
-
-                                //Miramos el valor de la etiqueta contraseña
-                                else if(tagname.equalsIgnoreCase("contrasena")){
-                                    password = parser.nextText();
-                                }
-                                break;
-                            default:
-                                break;
-                        }
-                        eventType = parser.next();
-                    }
-                    // Aquí comprobamos que la contraseña y usuario coinciden para ir a la pantalla principal
-                    Conector con = new Conector();
-                    boolean encontrado = con.login(nUsuario, password);
-                    Intent c = new Intent(this, pantalla_p.class);
-                    startActivity(c);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }                Thread.sleep(3000);
-            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
                 e.printStackTrace();
             }
+
         }
     }
 }

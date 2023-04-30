@@ -21,7 +21,7 @@ public class Perfil_Usuario extends AppCompatActivity {
         Conector con;
         try {
             con = new Conector();
-            TextView textViewNumEventos = (TextView) findViewById(R.id.textViewEventos);
+            TextView textViewNumEventos = (TextView) findViewById(R.id.textView7);
             textViewNumEventos.setText(con.getEventos().size()+"");
             TextView nombrePUA = (TextView) findViewById(R.id.nombrePUA);
             nombrePUA.setText(Perfil.getNombreU());

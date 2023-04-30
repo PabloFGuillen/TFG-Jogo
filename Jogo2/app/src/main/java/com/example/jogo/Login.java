@@ -5,12 +5,15 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Xml;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 import android.widget.Toolbar;
+
+import com.fasterxml.jackson.databind.deser.std.DateDeserializers;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -72,6 +75,11 @@ public class Login extends AppCompatActivity {
 
                     validado = con.validad(nUsuario, password);
                     if(validado == true){
+                        SQLite dbHelper = new SQLite(this);
+                        SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+                        SQLite.introducir(db);
+
                         Intent c = new Intent(Login.this, pantalla_p.class);
                         progressDialog.dismiss();
                         nUsuario = nUsuario.replaceAll(" ", "_");
