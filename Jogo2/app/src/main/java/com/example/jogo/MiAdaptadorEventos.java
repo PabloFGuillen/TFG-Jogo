@@ -142,14 +142,9 @@ public class MiAdaptadorEventos extends ArrayAdapter<Evento> {
             @Override
             public void onClick(View view) {
                 Conector con;
-
                 try{
                     con = new Conector();
                     con.eliminarEvento(eventoActual);
-
-
-
-
                 }catch(Exception e){
 
                 }

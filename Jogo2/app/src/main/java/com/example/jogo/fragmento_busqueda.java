@@ -1,7 +1,10 @@
 package com.example.jogo;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
@@ -12,6 +15,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,8 +43,8 @@ public class fragmento_busqueda extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private String busqueda;
-    private double latitud;
-    private double longitud;
+    private Double latitud;
+    private Double longitud;
     private int distancia;
     ListView listViewUs;
     ListView listViewUb;
@@ -175,34 +179,53 @@ public class fragmento_busqueda extends Fragment {
         boolean isGpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
 
         if (isGpsEnabled == false) {
-            GPSEvento(view, distancia);
-            Toast.makeText(getContext(), "Activa el GPS para buscar eventos.", Toast.LENGTH_SHORT).show();
+            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+            builder.setMessage("Para poder utilizar esta función, debes activar el GPS. ¿Deseas hacerlo ahora?");
+            builder.setPositiveButton("Sí", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                    startActivity(intent);
+                }
+            });
+            builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    Toast.makeText(getContext(), "Para usar esta funcionalidad hay que activar el GPS", Toast.LENGTH_LONG).show();
+                    Intent t = new Intent(getContext(), MainActivity.class);
+                    startActivity(t);
+                }
+            });
+            AlertDialog dialog = builder.create();
+            dialog.show();
         }
+        else{
+            fusedLocationClient = LocationServices.getFusedLocationProviderClient(getContext());
+            fusedLocationClient.getLastLocation()
+                    .addOnSuccessListener(getActivity(), new OnSuccessListener<Location>() {
+                        @Override
+                        public void onSuccess(Location location) {
+                            try {
+                                listViewEv = (ListView) view.findViewById(R.id.LVEvento);
 
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(getContext());
-        fusedLocationClient.getLastLocation()
-                .addOnSuccessListener(getActivity(), new OnSuccessListener<Location>() {
-                    @Override
-                    public void onSuccess(Location location) {
-                        try {
-                            listViewEv = (ListView) view.findViewById(R.id.LVEvento);
-                            latitud = location.getLatitude();
-                            longitud = location.getLongitude();
-                            Conector con = new Conector();
-                            ArrayList<Evento> lista = con.buscarNombre(busqueda, distancia, latitud, longitud);
-                            Adaptador adaptadorEjemplo = new Adaptador(
-                                    getContext(),
-                                    R.layout.evento_item,
-                                    lista
-                            );
-                            listViewEv.setAdapter(adaptadorEjemplo);
-                        } catch (ClassNotFoundException e) {
-                            e.printStackTrace();
-                        } catch (SQLException e) {
-                            e.printStackTrace();
+                                latitud = location.getLatitude();
+                                longitud = location.getLongitude();
+                                if(latitud != null && longitud != null) {
+                                    Conector con = new Conector();
+                                    ArrayList<Evento> lista = con.buscarNombre(busqueda, distancia, latitud, longitud);
+                                    Adaptador adaptadorEjemplo = new Adaptador(
+                                            getContext(),
+                                            R.layout.evento_item,
+                                            lista
+                                    );
+                                    listViewEv.setAdapter(adaptadorEjemplo);
+                                }
+                            } catch (ClassNotFoundException e) {
+
+                            } catch (SQLException e) {
+
+                            }
                         }
-                    }
-                });
+                    });
+        }
     }
 
     public void GPSUbicacion(View view){
@@ -232,30 +255,32 @@ public class fragmento_busqueda extends Fragment {
             Toast.makeText(getContext(), "Activa el GPS para buscar eventos.", Toast.LENGTH_SHORT).show();
         }
 
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(getContext());
-        fusedLocationClient.getLastLocation()
-                .addOnSuccessListener(getActivity(), new OnSuccessListener<Location>() {
-                    @Override
-                    public void onSuccess(Location location) {
-                        try {
-                            ListView listViewUb = (ListView) view.findViewById(R.id.LVUbicacion);
-                            latitud = location.getLatitude();
-                            longitud = location.getLongitude();
-                            Conector con = new Conector();
-                            ArrayList<Evento> lista = con.buscarUbicacion(busqueda);
-                            Adaptador adaptadorEjemplo = new Adaptador(
-                                    getContext(),
-                                    R.layout.evento_item,
-                                    lista
-                            );
-                            listViewUb.setAdapter(adaptadorEjemplo);
-                        } catch (ClassNotFoundException e) {
-                            e.printStackTrace();
-                        } catch (SQLException e) {
-                            e.printStackTrace();
+        else{
+            fusedLocationClient = LocationServices.getFusedLocationProviderClient(getContext());
+            fusedLocationClient.getLastLocation()
+                    .addOnSuccessListener(getActivity(), new OnSuccessListener<Location>() {
+                        @Override
+                        public void onSuccess(Location location) {
+                            try {
+                                ListView listViewUb = (ListView) view.findViewById(R.id.LVUbicacion);
+                                latitud = location.getLatitude();
+                                longitud = location.getLongitude();
+                                Conector con = new Conector();
+                                ArrayList<Evento> lista = con.buscarUbicacion(busqueda);
+                                Adaptador adaptadorEjemplo = new Adaptador(
+                                        getContext(),
+                                        R.layout.evento_item,
+                                        lista
+                                );
+                                listViewUb.setAdapter(adaptadorEjemplo);
+                            } catch (ClassNotFoundException e) {
+                                e.printStackTrace();
+                            } catch (SQLException e) {
+                                e.printStackTrace();
+                            }
                         }
-                    }
-                });
+                    });
+        }
     }
 
     public void GPSUsuario(View view){
@@ -284,31 +309,33 @@ public class fragmento_busqueda extends Fragment {
             GPSEvento(view, distancia);
             Toast.makeText(getContext(), "Activa el GPS para buscar eventos.", Toast.LENGTH_SHORT).show();
         }
+        else{
 
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(getContext());
-        fusedLocationClient.getLastLocation()
-                .addOnSuccessListener(getActivity(), new OnSuccessListener<Location>() {
-                    @Override
-                    public void onSuccess(Location location) {
-                        try {
-                            ListView listViewUs = (ListView) view.findViewById(R.id.LVUsuario);
-                            latitud = location.getLatitude();
-                            longitud = location.getLongitude();
-                            Conector con = new Conector();
-                            ArrayList<Cuenta> lista = con.buscarUsuario(busqueda);
-                            AdaptadorUsuario adaptadorEjemplo = new AdaptadorUsuario(
-                                    getContext(),
-                                    R.layout.usuario_item,
-                                    lista
-                            );
-                            listViewUs.setAdapter(adaptadorEjemplo);
-                        } catch (ClassNotFoundException e) {
-                            e.printStackTrace();
-                        } catch (SQLException e) {
-                            e.printStackTrace();
+            fusedLocationClient = LocationServices.getFusedLocationProviderClient(getContext());
+            fusedLocationClient.getLastLocation()
+                    .addOnSuccessListener(getActivity(), new OnSuccessListener<Location>() {
+                        @Override
+                        public void onSuccess(Location location) {
+                            try {
+                                ListView listViewUs = (ListView) view.findViewById(R.id.LVUsuario);
+                                latitud = location.getLatitude();
+                                longitud = location.getLongitude();
+                                Conector con = new Conector();
+                                ArrayList<Cuenta> lista = con.buscarUsuario(busqueda);
+                                AdaptadorUsuario adaptadorEjemplo = new AdaptadorUsuario(
+                                        getContext(),
+                                        R.layout.usuario_item,
+                                        lista
+                                );
+                                listViewUs.setAdapter(adaptadorEjemplo);
+                            } catch (ClassNotFoundException e) {
+                                e.printStackTrace();
+                            } catch (SQLException e) {
+                                e.printStackTrace();
+                            }
                         }
-                    }
-                });
+                    });
+        }
     }
     public void setDistancia(int distancia){
         this.distancia = distancia;

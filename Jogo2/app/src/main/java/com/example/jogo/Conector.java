@@ -480,5 +480,43 @@ public class Conector{
             System.out.println(e.getMessage());
         }
     }
+    public void seguir(String nombre){
+        try{
+            PreparedStatement ps = con.prepareStatement("INSERT INTO seguidores(nombre, nombre_seguidor) VALUES (?, ?);");
+            ps.setString(1,nombre);
+            ps.setString(2, Persona.getNombreU());
+            ps.executeUpdate();
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public boolean comprobarSeguidor(String nombre){
+        try{
+            PreparedStatement ps = con.prepareStatement("SELECT * FROM seguidores WHERE seguidores.nombre = ? AND seguidores.nombre_seguidor = ?");
+            ps.setString(1,nombre);
+            ps.setString(2, Persona.getNombreU());
+            ResultSet rs = ps.executeQuery();
+            if(rs == null){
+                return false;
+            }
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+        }
+        return true;
+    }
+
+    public boolean eliminarSiguiendo(String nombre){
+        try{
+            PreparedStatement ps = con.prepareStatement("DELETE FROM seguidores WHERE seguidores.nombre = ? AND seguidores.nombre_seguidor = ?");
+            ps.setString(1,nombre);
+            ps.setString(2, Persona.getNombreU());
+            ps.executeUpdate();
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+        }
+        return true;
+    }
+
 
 }

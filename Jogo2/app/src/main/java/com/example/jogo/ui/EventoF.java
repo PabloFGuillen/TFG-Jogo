@@ -2,10 +2,12 @@ package com.example.jogo.ui;
 
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -22,6 +24,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.provider.Settings;
 import android.transition.Fade;
 import android.transition.Transition;
 import android.view.KeyCharacterMap;
@@ -47,12 +50,14 @@ import com.example.jogo.ComprobacionNominatum;
 import com.example.jogo.Conector;
 import com.example.jogo.DatePickerFragment;
 import com.example.jogo.Evento;
+import com.example.jogo.MainActivity;
 import com.example.jogo.Persona;
 import com.example.jogo.R;
 import com.example.jogo.fragmento_busqueda;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.navigation.NavigationView;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
@@ -493,10 +498,27 @@ public class EventoF extends Fragment {
         LocationManager locationManager = (LocationManager) getContext().getSystemService(Context.LOCATION_SERVICE);
         boolean isGpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
 
-        if(isGpsEnabled == false){
-            GPS(view, distancia);
-            Toast.makeText(getContext(), "Activa el GPS para buscar eventos.", Toast.LENGTH_SHORT).show();
+        if(isGpsEnabled == false) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+            builder.setMessage("Para poder utilizar esta función, debes activar el GPS. ¿Deseas hacerlo ahora?");
+            builder.setPositiveButton("Sí", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                    startActivity(intent);
+                }
+            });
+            builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                   Toast.makeText(getContext(), "Para usar esta funcionalidad hay que activar el GPS", Toast.LENGTH_LONG).show();
+                   Intent t = new Intent(getContext(), MainActivity.class);
+                   startActivity(t);
+                }
+            });
+            AlertDialog dialog = builder.create();
+            dialog.show();
+
         }
+
         else
         {
             fusedLocationClient = LocationServices.getFusedLocationProviderClient(getContext());

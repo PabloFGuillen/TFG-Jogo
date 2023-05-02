@@ -13,7 +13,9 @@ import android.widget.TextView;
 
 import com.google.android.material.navigation.NavigationView;
 
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -41,14 +43,14 @@ public class pantalla_p extends AppCompatActivity {
         Drawable d = new BitmapDrawable(getResources(), Persona.getFotoP());
         toolbar.setNavigationIcon(d);
 
-
-
-        setSupportActionBar(binding.appBarPantallaP.toolbar);
+        setSupportActionBar(toolbar);
         DrawerLayout drawer = binding.drawerLayout;
         NavigationView navigationView = binding.navView;
         View headerV = navigationView.getHeaderView(0);
         TextView navU = (TextView) headerV.findViewById(R.id.nombreM);
-        ImageView imagen = (ImageView) findViewById(R.id.fotoUsuarioML);
+        ImageView imagen = (ImageView) findViewById(R.id.imageView9);
+
+
         navU.setText(Persona.getNombreU());
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.

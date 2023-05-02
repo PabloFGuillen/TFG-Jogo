@@ -55,6 +55,10 @@ public class Adaptador extends ArrayAdapter<Evento> {
         // Lo que hacemos es mostrar el nombre de usuario, evento, localidad, dia, hora así como nombre y qr
         fotoU.setImageBitmap(evento.getFotoU());
         RelativeLayout layout = (RelativeLayout) v.findViewById(R.id.layout);
+        if(getContext().getClass().getName().equals("com.example.jogo.ui.PerfilF")){
+            asistir.setVisibility(View.GONE);
+            cancelar.setVisibility(View.VISIBLE);
+        }
         layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

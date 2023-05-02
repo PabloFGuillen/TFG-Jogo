@@ -157,5 +157,9 @@
         android:gravity="center"
         android:text="TextView"
         android:textColor="#8D8D8D" />
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="100dp"
+        android:layout_height="wrap_content" />
 </RelativeLayout>
 
