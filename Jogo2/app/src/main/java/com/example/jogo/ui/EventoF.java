@@ -354,7 +354,7 @@ public class EventoF extends Fragment {
                 TextView ubicacion = (TextView) view.findViewById(R.id.km);
                 SeekBar distancia = (SeekBar) view.findViewById(R.id.distancia);
                 ubicacion.setText(String.valueOf(distancia.getProgress()));
-                ImageButton escaner = (ImageButton) view.findViewById(R.id.escaner);
+
 
                 listView = (ListView) view.findViewById(R.id.Listview);
                 Button actualizar = (Button) view.findViewById(R.id.actualizar);
@@ -374,13 +374,7 @@ public class EventoF extends Fragment {
                     }
                 });
 
-                escaner.setOnClickListener(new View.OnClickListener(){
 
-                    @Override
-                    public void onClick(View view) {
-                        new IntentIntegrator(getActivity()).initiateScan();
-                    }
-                });
                 // Aquí hacemos tareas dependiendo de la barra.
                 new Thread(new Runnable() {
                     @Override
